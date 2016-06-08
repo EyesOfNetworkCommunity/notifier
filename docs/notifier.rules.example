@@ -1,0 +1,62 @@
+<rules>
+    <debug_rules> 2 </debug_rules> 
+    <logrules_file> /srv/eyesofnetwork/notifier/log/notifier_rules.log </logrules_file>
+    <notifsent_file> /srv/eyesofnetwork/notifier/log/notifier_send.log </notifsent_file>
+
+    <host>
+    0:*:*:-:*:*:*:*:email
+    </host>
+
+    <service>
+    0:*:*:*:*:*:*:*:email
+    </service>
+</rules>
+
+
+
+<!--
+debug_rules :
+    0 : No logs
+    1 : Full debug logs (see logrules_files)
+    2 : Sent notifications logs (see notifsent_files)
+    3 : Full debug logs + Sent notifications logs (see logrules_files and notifsent_file)
+
+logrules_file :
+	logrules_file is the file where is logged the full notifier's debug (state 1 or 3)
+	By default, the log is in /srv/eyesofnetwork/notifier/log/notifier_rules.log
+notifsent_file :
+	notifsent_file is the file where is logged the sent notification history (state 2 or 3)
+	By default, the log is in /srv/eyesofnetwork/notifier/log/notifier_send.log
+
+rules_debug:contact:host:service:state:dayofweek:timeperiod:notificationnumber:method
+
+rules_debug : active full debug only on the rule.
+contact : person or group to notify
+host : host(s), hostgroup to apply rule
+service : service(s), servicesgroup to apply rule
+state : state to match rule
+dayofweeb : Day of week to would be notified by the rule
+timeperiod : Time range to would be notified by the rule 
+notificationnumber : Minimal number of notification to match the rule
+method : Notification method
+
+
+Example  : 
+    To host : 
+        0:admin:localhost:-:*:mon,tue,wed,thu,fri:0800-1800:1:email
+    To service : 
+        1:admin:localhost:ssh:*:mon,tue,wed,thu,fri:0800-1800:1:email   
+
+state : UP, DOWM, UNREACHABLE, … (to host) / UP, CRITICAL, WARNING, … (to service)
+dayofweek : mon,tue,web,thu,fri,sat,sun (could be *)
+
+You could be affect hostgroup or several host in the same rule (Same for contact and service)
+Example :
+	0:admin,user1@localdomain:localhost.localdomain,test.localdomain:ssh,systime:*:*:0800-1800:1:email
+
+wildcards :
+	- : neither
+	* : any
+
+
+-->

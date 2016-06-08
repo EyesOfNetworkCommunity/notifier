@@ -1,0 +1,15 @@
+<rules>
+    <debug_rules> 3 </debug_rules> 
+    <logrules_file> /srv/eyesofnetwork/notifier/log/notifier_rules.log </logrules_file>
+    <notifsent_file> /srv/eyesofnetwork/notifier/log/notifier_send.log </notifsent_file>
+
+    <host>
+        0:*:*:-:UP:*:*:*:email
+        0:*:*:-:*:*:*:1:email
+    </host>
+
+    <service>
+        0:*:*:*:*:*:*:1:email
+        0:*:*:*:OK:*:*:*:email
+    </service>
+</rules>
