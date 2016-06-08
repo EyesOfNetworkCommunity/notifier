@@ -1,0 +1,8 @@
+# Notifier database creation :
+	CREATE DATABASE notifier;
+
+# Now, inject table structure notifier.sql :
+	mysql -u root -p notifier < notifier.sql
+
+# When is done, create user for the notifier : 
+GRANT ALL PRIVILEGES ON notifier.* TO 'notifier'@'localhost' IDENTIFIED BY 'Notifier66';

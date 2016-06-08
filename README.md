@@ -1,2 +1,2 @@
-# notifier
-EyesOfNetwork notifier 2.0
+# EyesOfNetwork advanced notifier unit.
+
