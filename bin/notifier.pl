@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 ##
-## Program: notifier.pl v1.4, Rule-based Notification Addon for Nagios(r)
+## Program: notifier.pl v2.0, Rule-based Notification Addon for Nagios(r)
 ## License: GPL
 ## Copyleft 2013 Vincent Fricou (vincent.fricou@gmail.com)
 ## Hugely inspired by the excellent work of Yueh-Hung Liu (yuehung.liu@gmail.com)
@@ -467,14 +467,12 @@ sub notify
 	if ($? == -1) {
 		my $notifier_duration = time - $notifier_dur_start;
 				$query = "INSERT INTO notifier.sents_logs (nagios_date, contact, host, service, state, notification_number, method, priority, matched_rule, exit_code, exit_command, epoch, cmd_duration, notifier_duration) VALUES('".$nagios_longtimedate."', '".$contact_mail."', '".$host_source."', '".$service_desc."', '".$state."', '".$nagios_notification_number."',  '".$calledmethods."', $priority, '$mrules', $?, '".$commands{$method}."', $epoch, $cmd_duration, $notifier_duration)";
-		print "$query \n";
 		$dbh->do($query);
         print NOTIFSENTRULES "Failed to execute: $! The final command was: $commands{$method} \n-----\n";
     }
     elsif ($? & 127) {
 		my $notifier_duration = time - $notifier_dur_start;
 		$query = "INSERT INTO notifier.sents_logs (nagios_date, contact, host, service, state, notification_number, method, priority, matched_rule, exit_code, exit_command, epoch, cmd_duration, notifier_duration) VALUES('".$nagios_longtimedate."', '".$contact_mail."', '".$host_source."', '".$service_desc."', '".$state."', '".$nagios_notification_number."',  '".$calledmethods."', $priority, '$mrules', $?, '".$commands{$method}."', $epoch, $cmd_duration, $notifier_duration)";
-		print "$query \n";
 		$dbh->do($query);
         printf NOTIFSENTRULES "Child died with signal %d, %s coredump. The final command was: $commands{$method} \n-----\n",
             ($? & 127),  ($? & 128) ? 'with' : 'without';
@@ -482,7 +480,6 @@ sub notify
     else {
 		my $notifier_duration = time - $notifier_dur_start;
 		$query = "INSERT INTO notifier.sents_logs (nagios_date, contact, host, service, state, notification_number, method, priority, matched_rule, exit_code, exit_command, epoch, cmd_duration, notifier_duration) VALUES('".$nagios_longtimedate."', '".$contact_mail."', '".$host_source."', '".$service_desc."', '".$state."', '".$nagios_notification_number."', '".$calledmethods."', $priority, '$mrules', $?, '".$commands{$method}."', $epoch, $cmd_duration, $notifier_duration)";
-		print "$query \n";
 		$dbh->do($query);
         printf NOTIFSENTRULES "Child exited with value %d. The final command was: $commands{$method} \n-----\n", $? >> 8;
     }

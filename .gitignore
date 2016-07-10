@@ -54,3 +54,7 @@ Temporary Items
 *.ori
 *.orig
 *.rej
+
+# Vim backup files
+# ========================
+*\~
