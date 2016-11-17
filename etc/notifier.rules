@@ -4,8 +4,8 @@
     <notifsent_file> /srv/eyesofnetwork/notifier/log/notifier_send.log </notifsent_file>
 
     <host>
-        0:*:*:-:UP:*:*:*:sms:1
-        0:*:*:-:*:*:*:1:email-appDOWN:0
+        0:*:*:-:UP:*:*:*:email-appUP,sms-appUP:1
+        0:*:*:-:*:*:*:1:email,sms-appDOWN:0
     </host>
 
     <service>

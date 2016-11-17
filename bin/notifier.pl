@@ -58,7 +58,10 @@ my $cmd_dur_start;
 my $cmd_duration;
 my $mrules;
 my $calledmethods;
-
+my $prev_methods;
+my @results;
+my ($cmd,$etat);
+my $adapt_methods;
 ## common part
 my $host_source;
 my $host_state;
@@ -303,23 +306,29 @@ foreach( split( /\n/, $$rules{$data_type} ) )
 		} else {
 			$query_analysis = "SELECT state,method FROM notifier.sents_logs WHERE contact='".$contact_mail."' AND host='".$host_source."' AND service='".$service_desc."' order by id desc limit 1;";
 		}
-		my @results = $dbh->selectrow_array($query_analysis);
-		my $prev_state = $results[0];
-		my $prev_methods = $results[1];
+		@results = $dbh->selectrow_array($query_analysis);
+		$prev_state = $results[0];
+		$prev_methods = $results[1];
+		my @prev_methods = split(',',$prev_methods);
 		if ( $state ne $prev_state )
 		{
-			print "Methods ".$methods."\n";
-			print "Prev Methods ".$prev_methods."\n";
-			my ($cmd,$etat) = $prev_methods =~ /([a-z\-]+)(.*)$/;
-			print "Command ".$cmd."\n";
-			print "State ".$etat."\n";
-			$prev_methods=$cmd.$state;
-			print "Prev Methods now :".$prev_methods."\n";
-#			my $adaptative_method =~ s/// ;
+			my $array_methods;
+			foreach my $uniq_methods (@prev_methods) 
+			{
+				($cmd,$etat) = $uniq_methods =~ /([a-z\-]+)(.*)$/;
+				if ( $etat ne '' )
+				{ 
+					$adapt_methods=fill_method_array($cmd,$state);
+				} else {
+					$adapt_methods=fill_method_array($cmd);
+				}
+			}
+			print "Finish foreach : $adapt_methods\n";
+			$prev_methods=$adapt_methods;
 			$methods=$prev_methods;
 		}
 	}
-
+	
 	if( $wildcard > $priority )
 	{
 		print LOGRULES "current priority = $priority; new priority(wildcard matching) = $wildcard....ignore this rule\n" if ($debug_rules == 1 || $debug_rules == 3 || $rudebug == 1);
@@ -460,6 +469,18 @@ sub in_number
 	}
 
 	return $found;
+}
+
+sub fill_method_array 
+{
+	my ($sub_cmd, $sub_etat) = @_;
+	if ( ! $array_methods ) 
+	{
+		$array_methods=$sub_cmd.$sub_etat;
+	} else { 
+		$array_methods=$array_methods.",".$sub_cmd.$sub_etat; 
+	}
+	return $array_methods;
 }
 
 sub notify
