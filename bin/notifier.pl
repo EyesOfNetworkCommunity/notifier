@@ -40,7 +40,7 @@ my $debug_rules;
 my $log_file;
 my %commands;
 my $mike_commands;
-my ( $rudebug, $contacts, $hosts, $services, $states, $timeperiods, $numbers, $methods );
+my ( $rudebug, $contacts, $hosts, $services, $states, $timeperiods, $numbers, $methods, $tracking );
 my $rdebug;
 my $found;
 my $wildcard;
@@ -200,7 +200,7 @@ foreach( split( /\n/, $$rules{$data_type} ) )
 	next if /^$/;
 
 	chomp;
-	( $rudebug, $contacts, $hosts, $services, $states, $days, $timeperiods, $numbers, $methods ) = split /[\s]*:[\s]*/; ## Modif L.P
+	( $rudebug, $contacts, $hosts, $services, $states, $days, $timeperiods, $numbers, $methods, $tracking ) = split /[\s]*:[\s]*/;
 	print LOGRULES "********************************************\n" if ($rudebug == 1);
 	print LOGRULES "date = $nagios_longtimedate\n" if ($rudebug == 1);
 	print LOGRULES "Reading $rules_file data_type: $$rules{$data_type}\n" if ($rudebug == 1);
@@ -225,10 +225,6 @@ foreach( split( /\n/, $$rules{$data_type} ) )
 	}
 	print LOGRULES "found contact ` $contact_mail(groups=$group_contact) ' in ` $contacts '\n" if ($debug_rules == 1 || $debug_rules == 3 || $rudebug == 1);
 	$wildcard += $found-1;
-
-#
-#	Ajout L.P.
-#
 
 	$today=lc(strftime "%a", gmtime);
 	$found = in_array( $today, split( /[\s]*,[\s]*/, lc($days)) );
@@ -299,6 +295,20 @@ foreach( split( /\n/, $$rules{$data_type} ) )
 	print LOGRULES "found notification number $nagios_notification_number in $numbers \n" if ($debug_rules == 1 || $debug_rules == 3 || $rudebug == 1);
 	$wildcard += $found-1;
 
+	if ( $tracking != 0 )
+	{
+		if ( ! $service_desc )
+		{
+			$query_analysis = "SELECT state,method FROM notifier.sents_logs WHERE contact='".$contact_mail."' AND host='".$host_source."' order by id desc limit 1;";
+		} else {
+			$query_analysis = "SELECT state,method FROM notifier.sents_logs WHERE contact='".$contact_mail."' AND host='".$host_source."' AND service='".$service_desc."' order by id desc limit 1;";
+		}
+		my @results = $dbh->selectrow_array($query_analysis);
+		my $prev_state = $results[0];
+		my $prev_methods = $results[1];
+		$methods=$prev_methods if ( $state ne $prev_state );
+	}
+
 	if( $wildcard > $priority )
 	{
 		print LOGRULES "current priority = $priority; new priority(wildcard matching) = $wildcard....ignore this rule\n" if ($debug_rules == 1 || $debug_rules == 3 || $rudebug == 1);
@@ -350,7 +360,7 @@ else
 {
 	print LOGRULES "#### silence\n" if ($debug_rules == 1 || $debug_rules == 3 || $rudebug == 1);
 }
-
+$dbh->disconnect();
 
 close LOG if $debug;
 close LOGRULES;
@@ -466,7 +476,7 @@ sub notify
 	$state = $data_type eq "host" ? $host_state : $service_state;
 	if ($? == -1) {
 		my $notifier_duration = time - $notifier_dur_start;
-				$query = "INSERT INTO notifier.sents_logs (nagios_date, contact, host, service, state, notification_number, method, priority, matched_rule, exit_code, exit_command, epoch, cmd_duration, notifier_duration) VALUES('".$nagios_longtimedate."', '".$contact_mail."', '".$host_source."', '".$service_desc."', '".$state."', '".$nagios_notification_number."',  '".$calledmethods."', $priority, '$mrules', $?, '".$commands{$method}."', $epoch, $cmd_duration, $notifier_duration)";
+		$query = "INSERT INTO notifier.sents_logs (nagios_date, contact, host, service, state, notification_number, method, priority, matched_rule, exit_code, exit_command, epoch, cmd_duration, notifier_duration) VALUES('".$nagios_longtimedate."', '".$contact_mail."', '".$host_source."', '".$service_desc."', '".$state."', '".$nagios_notification_number."',  '".$calledmethods."', $priority, '$mrules', $?, '".$commands{$method}."', $epoch, $cmd_duration, $notifier_duration)";
 		$dbh->do($query);
         print NOTIFSENTRULES "Failed to execute: $! The final command was: $commands{$method} \n-----\n";
     }
