@@ -7,6 +7,7 @@ CREATE TABLE `sents_logs` (
   `host` longtext DEFAULT NULL,
   `service` longtext DEFAULT NULL,
   `state` varchar(255) DEFAULT NULL,
+  `notification_number` int(11) DEFAULT NULL,
   `method` varchar(255) DEFAULT NULL,
   `priority` tinyint(1) DEFAULT NULL,
   `matched_rule` longtext DEFAULT NULL,
