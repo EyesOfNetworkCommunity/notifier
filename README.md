@@ -10,7 +10,7 @@ Typically, current notification traited by notifier can check previous sent noti
 Exemple 1:
 * 1st notification sent DOWN on host with method email and sms.
 * 2nd notification sent UP on host with normal notification only email. But if you choose to track these types (In rules), this method can be adapted to auto take same notifications than 1st (email and sms).
-.. Next to, if you re-send UP notification in exact same case (contact and host), the new notification take normal methos (email)
+..* Next to, if you re-send UP notification in exact same case (contact and host), the new notification take normal methos (email)
 
 ## To think
 Is necessary to create notifier database before start using EON advanced notification.
