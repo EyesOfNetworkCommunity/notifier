@@ -306,7 +306,18 @@ foreach( split( /\n/, $$rules{$data_type} ) )
 		my @results = $dbh->selectrow_array($query_analysis);
 		my $prev_state = $results[0];
 		my $prev_methods = $results[1];
-		$methods=$prev_methods if ( $state ne $prev_state );
+		if ( $state ne $prev_state )
+		{
+			print "Methods ".$methods."\n";
+			print "Prev Methods ".$prev_methods."\n";
+			my ($cmd,$etat) = $prev_methods =~ /([a-z\-]+)(.*)$/;
+			print "Command ".$cmd."\n";
+			print "State ".$etat."\n";
+			$prev_methods=$cmd.$state;
+			print "Prev Methods now :".$prev_methods."\n";
+#			my $adaptative_method =~ s/// ;
+			$methods=$prev_methods;
+		}
 	}
 
 	if( $wildcard > $priority )

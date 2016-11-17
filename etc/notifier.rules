@@ -5,7 +5,7 @@
 
     <host>
         0:*:*:-:UP:*:*:*:sms:1
-        0:*:*:-:*:*:*:1:email,sms:0
+        0:*:*:-:*:*:*:1:email-appDOWN:0
     </host>
 
     <service>

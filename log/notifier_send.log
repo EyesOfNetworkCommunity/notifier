@@ -1,0 +1,100 @@
+2016-07-10-11:00/00 Sent notification to vincent@fricouv.eu on localhost  for state DOWN by email,sms with priority 5 on notification number 1 | {Matched rules : 0;*;*;-;*;*;*;1;email,sms}
+2016-07-10-11:00/00 Sent notification to vincent@fricouv.eu on localhost  for state DOWN by email,sms with priority 5 on notification number 1 | {Matched rules : 0;*;*;-;*;*;*;1;email,sms}
+Child exited with value 0. The final command was: /usr/bin/printf "0" "***** EyesOfNetwork  *****\\n\\nNotification Type: host\\nHost: localhost\\nState: DOWN\\nAddress: 127.0.0.1\\nInfo: DOWN\\n\\nDate/Time: 2016-07-10-11:00/00\\n" | /bin/mail -s "Host DOWN alert for localhost!" vincent@fricouv.eu 
+-----
+Child exited with value 127. The final command was: /srv/eyesofnetwork/nagios/plugins/envoi_sms.sh  "localhost Status: DOWN  2016-07-10-11:00/00" 
+-----
+2016-07-10-11:00/00 Sent notification to vincent@fricouv.eu on localhost  for state UP by email,sms with priority 5 on notifiaction number 1 | {Matched rules : 0;*;*;-;*;*;*;1;email,sms}
+2016-07-10-11:00/00 Sent notification to vincent@fricouv.eu on localhost  for state UP by email,sms with priority 5 on notifiaction number 1 | {Matched rules : 0;*;*;-;*;*;*;1;email,sms}
+Child exited with value 0. The final command was: /usr/bin/printf "0" "***** EyesOfNetwork  *****\\n\\nNotification Type: host\\nHost: localhost\\nState: UP\\nAddress: 127.0.0.1\\nInfo: DOWN\\n\\nDate/Time: 2016-07-10-11:00/00\\n" | /bin/mail -s "Host UP alert for localhost!" vincent@fricouv.eu 
+-----
+Child exited with value 127. The final command was: /srv/eyesofnetwork/nagios/plugins/envoi_sms.sh  "localhost Status: UP  2016-07-10-11:00/00" 
+-----
+2016-07-10-11:00/00 Sent notification to vincent@fricouv.eu on localhost  for state UP by sms with priority 5 on notification number 1 | {Matched rules : 0;*;*;-;UP;*;*;*;sms}
+2016-07-10-11:00/00 Sent notification to vincent@fricouv.eu on localhost  for state UP by email,sms with priority 5 on notifiaction number 1 | {Matched rules : 0;*;*;-;*;*;*;1;email,sms}
+2016-07-10-11:00/00 Sent notification to vincent@fricouv.eu on localhost  for state UP by email,sms with priority 5 on notifiaction number 1 | {Matched rules : 0;*;*;-;*;*;*;1;email,sms}
+Child exited with value 0. The final command was: /usr/bin/printf "0" "***** EyesOfNetwork  *****\\n\\nNotification Type: host\\nHost: localhost\\nState: UP\\nAddress: 127.0.0.1\\nInfo: DOWN\\n\\nDate/Time: 2016-07-10-11:00/00\\n" | /bin/mail -s "Host UP alert for localhost!" vincent@fricouv.eu 
+-----
+Child exited with value 127. The final command was: /srv/eyesofnetwork/nagios/plugins/envoi_sms.sh  "localhost Status: UP  2016-07-10-11:00/00" 
+-----
+2016-07-10-11:00/00 Sent notification to vincent@fricouv.eu on localhost  for state DOWN by email,sms with priority 5 on notification number 1 | {Matched rules : 0;*;*;-;*;*;*;1;email,sms}
+2016-07-10-11:00/00 Sent notification to vincent@fricouv.eu on localhost  for state DOWN by email,sms with priority 5 on notification number 1 | {Matched rules : 0;*;*;-;*;*;*;1;email,sms}
+Child exited with value 0. The final command was: /usr/bin/printf "0" "***** EyesOfNetwork  *****\\n\\nNotification Type: host\\nHost: localhost\\nState: DOWN\\nAddress: 127.0.0.1\\nInfo: DOWN\\n\\nDate/Time: 2016-07-10-11:00/00\\n" | /bin/mail -s "Host DOWN alert for localhost!" vincent@fricouv.eu 
+-----
+Child exited with value 127. The final command was: /srv/eyesofnetwork/nagios/plugins/envoi_sms.sh  "localhost Status: DOWN  2016-07-10-11:00/00" 
+-----
+2016-07-10-11:00/00 Sent notification to vincent@fricouv.eu on localhost  for state UP by email,sms with priority 5 on notifiaction number 1 | {Matched rules : 0;*;*;-;*;*;*;1;email,sms}
+2016-07-10-11:00/00 Sent notification to vincent@fricouv.eu on localhost  for state UP by email,sms with priority 5 on notifiaction number 1 | {Matched rules : 0;*;*;-;*;*;*;1;email,sms}
+Child exited with value 0. The final command was: /usr/bin/printf "0" "***** EyesOfNetwork  *****\\n\\nNotification Type: host\\nHost: localhost\\nState: UP\\nAddress: 127.0.0.1\\nInfo: DOWN\\n\\nDate/Time: 2016-07-10-11:00/00\\n" | /bin/mail -s "Host UP alert for localhost!" vincent@fricouv.eu 
+-----
+Child exited with value 127. The final command was: /srv/eyesofnetwork/nagios/plugins/envoi_sms.sh  "localhost Status: UP  2016-07-10-11:00/00" 
+-----
+2016-07-10-11:00/00 Sent notification to vincent@fricouv.eu on localhost  for state UP by sms with priority 5 on notification number 1 | {Matched rules : 0;*;*;-;UP;*;*;*;sms}
+2016-07-10-11:00/00 Sent notification to vincent@fricouv.eu on localhost  for state UP by email,sms with priority 5 on notifiaction number 1 | {Matched rules : 0;*;*;-;*;*;*;1;email,sms}
+2016-07-10-11:00/00 Sent notification to vincent@fricouv.eu on localhost  for state UP by email,sms with priority 5 on notifiaction number 1 | {Matched rules : 0;*;*;-;*;*;*;1;email,sms}
+Child exited with value 0. The final command was: /usr/bin/printf "0" "***** EyesOfNetwork  *****\\n\\nNotification Type: host\\nHost: localhost\\nState: UP\\nAddress: 127.0.0.1\\nInfo: DOWN\\n\\nDate/Time: 2016-07-10-11:00/00\\n" | /bin/mail -s "Host UP alert for localhost!" vincent@fricouv.eu 
+-----
+Child exited with value 127. The final command was: /srv/eyesofnetwork/nagios/plugins/envoi_sms.sh  "localhost Status: UP  2016-07-10-11:00/00" 
+-----
+2016-07-10-11:00/00 Sent notification to vincent@fricouv.eu on localhost  for state UP by sms with priority 5 on notification number 1 | {Matched rules : 0;*;*;-;UP;*;*;*;sms}
+2016-07-10-11:00/00 Sent notification to vincent@fricouv.eu on localhost  for state UP by email,sms with priority 5 on notifiaction number 1 | {Matched rules : 0;*;*;-;*;*;*;1;email,sms}
+2016-07-10-11:00/00 Sent notification to vincent@fricouv.eu on localhost  for state UP by email,sms with priority 5 on notifiaction number 1 | {Matched rules : 0;*;*;-;*;*;*;1;email,sms}
+Child exited with value 255. The final command was:  
+-----
+Child exited with value 127. The final command was: /srv/eyesofnetwork/nagios/plugins/envoi_sms.sh  "localhost Status: UP  2016-07-10-11:00/00" 
+-----
+2016-07-10-11:00/00 Sent notification to vincent@fricouv.eu on localhost  for state DOWN by email,sms with priority 5 on notification number 1 | {Matched rules : 0;*;*;-;*;*;*;1;email,sms}
+2016-07-10-11:00/00 Sent notification to vincent@fricouv.eu on localhost  for state DOWN by email,sms with priority 5 on notification number 1 | {Matched rules : 0;*;*;-;*;*;*;1;email,sms}
+Child exited with value 255. The final command was:  
+-----
+Child exited with value 127. The final command was: /srv/eyesofnetwork/nagios/plugins/envoi_sms.sh  "localhost Status: DOWN  2016-07-10-11:00/00" 
+-----
+2016-07-10-11:00/00 Sent notification to vincent@fricouv.eu on localhost  for state UP by email,sms with priority 5 on notifiaction number 1 | {Matched rules : 0;*;*;-;*;*;*;1;email,sms}
+2016-07-10-11:00/00 Sent notification to vincent@fricouv.eu on localhost  for state UP by email,sms with priority 5 on notifiaction number 1 | {Matched rules : 0;*;*;-;*;*;*;1;email,sms}
+Child exited with value 255. The final command was:  
+-----
+Child exited with value 127. The final command was: /srv/eyesofnetwork/nagios/plugins/envoi_sms.sh  "localhost Status: UP  2016-07-10-11:00/00" 
+-----
+2016-07-10-11:00/00 Sent notification to vincent@fricouv.eu on localhost  for state DOWN by email,sms with priority 5 on notification number 1 | {Matched rules : 0;*;*;-;*;*;*;1;email,sms}
+2016-07-10-11:00/00 Sent notification to vincent@fricouv.eu on localhost  for state DOWN by email,sms with priority 5 on notification number 1 | {Matched rules : 0;*;*;-;*;*;*;1;email,sms}
+Child exited with value 255. The final command was:  
+-----
+Child exited with value 127. The final command was: /srv/eyesofnetwork/nagios/plugins/envoi_sms.sh  "localhost Status: DOWN  2016-07-10-11:00/00" 
+-----
+2016-07-10-11:00/00 Sent notification to vincent@fricouv.eu on localhost  for state UP by email,sms with priority 5 on notification number 1 | {Matched rules : 0;*;*;-;UP;*;*;*;email,sms}
+2016-07-10-11:00/00 Sent notification to vincent@fricouv.eu on localhost  for state UP by email,sms with priority 5 on notification number 1 | {Matched rules : 0;*;*;-;UP;*;*;*;email,sms}
+2016-07-10-11:00/00 Sent notification to vincent@fricouv.eu on localhost  for state UP by email,sms with priority 5 on notifiaction number 1 | {Matched rules : 0;*;*;-;*;*;*;1;email,sms}
+2016-07-10-11:00/00 Sent notification to vincent@fricouv.eu on localhost  for state UP by email,sms with priority 5 on notifiaction number 1 | {Matched rules : 0;*;*;-;*;*;*;1;email,sms}
+Child exited with value 255. The final command was:  
+-----
+Child exited with value 127. The final command was: /srv/eyesofnetwork/nagios/plugins/envoi_sms.sh  "localhost Status: UP  2016-07-10-11:00/00" 
+-----
+2016-07-10-11:00/00 Sent notification to vincent@fricouv.eu on localhost  for state DOWN by email-appDOWN with priority 5 on notification number 1 | {Matched rules : 0;*;*;-;*;*;*;1;email-appDOWN}
+Child exited with value 0. The final command was: /usr/bin/printf "0" "***** EyesOfNetwork  *****\\n\\nNotification Type: host\\nHost: localhost\\nState: DOWN\\nAddress: 127.0.0.1\\nInfo: DOWN\\n\\nDate/Time: 2016-07-10-11:00/00\\n" | /bin/mail -s "Host DOWN alert for localhost!" vincent@fricouv.eu 
+-----
+2016-07-10-11:00/00 Sent notification to vincent@fricouv.eu on localhost  for state UP by email-appDOWN with priority 5 on notification number 1 | {Matched rules : 0;*;*;-;UP;*;*;*;email-appDOWN}
+2016-07-10-11:00/00 Sent notification to vincent@fricouv.eu on localhost  for state UP by email-appDOWN with priority 5 on notifiaction number 1 | {Matched rules : 0;*;*;-;*;*;*;1;email-appDOWN}
+Child exited with value 0. The final command was: /usr/bin/printf "0" "***** EyesOfNetwork  *****\\n\\nNotification Type: host\\nHost: localhost\\nState: UP\\nAddress: 127.0.0.1\\nInfo: DOWN\\n\\nDate/Time: 2016-07-10-11:00/00\\n" | /bin/mail -s "Host UP alert for localhost!" vincent@fricouv.eu 
+-----
+2016-07-10-11:00/00 Sent notification to vincent@fricouv.eu on localhost  for state DOWN by email-appDOWN with priority 5 on notification number 1 | {Matched rules : 0;*;*;-;*;*;*;1;email-appDOWN}
+Child exited with value 0. The final command was: /usr/bin/printf "0" "***** EyesOfNetwork  *****\\n\\nNotification Type: host\\nHost: localhost\\nState: DOWN\\nAddress: 127.0.0.1\\nInfo: DOWN\\n\\nDate/Time: 2016-07-10-11:00/00\\n" | /bin/mail -s "Host DOWN alert for localhost!" vincent@fricouv.eu 
+-----
+2016-07-10-11:00/00 Sent notification to vincent@fricouv.eu on localhost  for state UP by email-appDOWN with priority 5 on notification number 1 | {Matched rules : 0;*;*;-;UP;*;*;*;email-appDOWN}
+2016-07-10-11:00/00 Sent notification to vincent@fricouv.eu on localhost  for state UP by email-appDOWN with priority 5 on notifiaction number 1 | {Matched rules : 0;*;*;-;*;*;*;1;email-appDOWN}
+Child exited with value 0. The final command was: /usr/bin/printf "0" "***** EyesOfNetwork  *****\\n\\nNotification Type: host\\nHost: localhost\\nState: UP\\nAddress: 127.0.0.1\\nInfo: DOWN\\n\\nDate/Time: 2016-07-10-11:00/00\\n" | /bin/mail -s "Host UP alert for localhost!" vincent@fricouv.eu 
+-----
+2016-07-10-11:00/00 Sent notification to vincent@fricouv.eu on localhost  for state UP by sms with priority 5 on notification number 1 | {Matched rules : 0;*;*;-;UP;*;*;*;sms}
+2016-07-10-11:00/00 Sent notification to vincent@fricouv.eu on localhost  for state UP by email-appDOWN with priority 5 on notifiaction number 1 | {Matched rules : 0;*;*;-;*;*;*;1;email-appDOWN}
+Child exited with value 0. The final command was: /usr/bin/printf "0" "***** EyesOfNetwork  *****\\n\\nNotification Type: host\\nHost: localhost\\nState: UP\\nAddress: 127.0.0.1\\nInfo: DOWN\\n\\nDate/Time: 2016-07-10-11:00/00\\n" | /bin/mail -s "Host UP alert for localhost!" vincent@fricouv.eu 
+-----
+Child exited with value 127. The final command was: /srv/eyesofnetwork/nagios/plugins/envoi_sms.sh  "localhost Status: UP  2016-07-10-11:00/00" 
+-----
+2016-07-10-11:00/00 Sent notification to vincent@fricouv.eu on localhost  for state DOWN by email-appDOWN with priority 5 on notification number 1 | {Matched rules : 0;*;*;-;*;*;*;1;email-appDOWN}
+Child exited with value 0. The final command was: /usr/bin/printf "0" "***** EyesOfNetwork  *****\\n\\nNotification Type: host\\nHost: localhost\\nState: DOWN\\nAddress: 127.0.0.1\\nInfo: DOWN\\n\\nDate/Time: 2016-07-10-11:00/00\\n" | /bin/mail -s "Host DOWN alert for localhost!" vincent@fricouv.eu 
+-----
+2016-07-10-11:00/00 Sent notification to vincent@fricouv.eu on localhost  for state UP by email-appUP with priority 5 on notification number 1 | {Matched rules : 0;*;*;-;UP;*;*;*;email-appUP}
+2016-07-10-11:00/00 Sent notification to vincent@fricouv.eu on localhost  for state UP by email-appDOWN with priority 5 on notifiaction number 1 | {Matched rules : 0;*;*;-;*;*;*;1;email-appDOWN}
+Child exited with value 0. The final command was: /usr/bin/printf "0" "***** EyesOfNetwork  *****\\n\\nNotification Type: host\\nHost: localhost\\nState: UP\\nAddress: 127.0.0.1\\nInfo: DOWN\\n\\nDate/Time: 2016-07-10-11:00/00\\n" | /bin/mail -s "Host UP alert for localhost!" vincent@fricouv.eu 
+-----
+Child exited with value 0. The final command was: /usr/bin/printf "0" "***** EyesOfNetwork  *****\\n\\nNotification Type: host\\nHost: localhost\\nState: UP\\nAddress: 127.0.0.1\\nInfo: DOWN\\n\\nDate/Time: 2016-07-10-11:00/00\\n" | /bin/mail -s "Host UP alert for localhost!" vincent@fricouv.eu 
+-----

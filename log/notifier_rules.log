@@ -1,0 +1,437 @@
+********************************************
+date = 2016-07-10-11:00/00
+Reading /srv/eyesofnetwork/notifier/etc//notifier.rules data_type: 
+        0:*:*:-:UP:*:*:*:sms:1
+        0:*:*:-:*:*:*:1:email,sms:0
+    
+#### matching rule ` 0:*:*:-:UP:*:*:*:sms:1 '....
+found contact ` vincent@fricouv.eu(groups=) ' in ` * '
+found today jeu. in * 
+found host localhost in * 
+can't find state ` DOWN ' in ` UP '....skip this rule
+#### matching rule ` 0:*:*:-:*:*:*:1:email,sms:0 '....
+found contact ` vincent@fricouv.eu(groups=) ' in ` * '
+found today jeu. in * 
+found host localhost in * 
+found state ` DOWN ' in ` * '
+found time 2016-07-10-11:00:00 in *
+found notification number 1 in 1 
+current priority = 100; new priority(wildcard matching) = 5....replace with this rule
+#### notify host by email
+command = /usr/bin/printf "%b" "***** EyesOfNetwork  *****\\n\\nNotification Type: host\\nHost: localhost\\nState: DOWN\\nAddress: 127.0.0.1\\nInfo: DOWN\\n\\nDate/Time: 2016-07-10-11:00/00\\n" | /bin/mail -s "Host DOWN alert for localhost!" vincent@fricouv.eu
+#### notify host by sms
+command = /srv/eyesofnetwork/nagios/plugins/envoi_sms.sh  "localhost Status: DOWN  2016-07-10-11:00/00"
+********************************************
+date = 2016-07-10-11:00/00
+Reading /srv/eyesofnetwork/notifier/etc//notifier.rules data_type: 
+        0:*:*:-:UP:*:*:*:sms:1
+        0:*:*:-:*:*:*:1:email,sms:0
+    
+#### matching rule ` 0:*:*:-:UP:*:*:*:sms:1 '....
+found contact ` vincent@fricouv.eu(groups=) ' in ` * '
+found today jeu. in * 
+found host localhost in * 
+found state ` UP ' in ` UP '
+found time 2016-07-10-11:00:00 in *
+found notification number 1 in * 
+current priority = 100; new priority(wildcard matching) = 5....replace with this rule
+#### matching rule ` 0:*:*:-:*:*:*:1:email,sms:0 '....
+found contact ` vincent@fricouv.eu(groups=) ' in ` * '
+found today jeu. in * 
+found host localhost in * 
+found state ` UP ' in ` * '
+found time 2016-07-10-11:00:00 in *
+found notification number 1 in 1 
+current priority = 5; new priority(wildcard matching) = 5....merge this rule
+#### notify host by email
+command = /usr/bin/printf "%b" "***** EyesOfNetwork  *****\\n\\nNotification Type: host\\nHost: localhost\\nState: UP\\nAddress: 127.0.0.1\\nInfo: DOWN\\n\\nDate/Time: 2016-07-10-11:00/00\\n" | /bin/mail -s "Host UP alert for localhost!" vincent@fricouv.eu
+#### notify host by sms
+command = /srv/eyesofnetwork/nagios/plugins/envoi_sms.sh  "localhost Status: UP  2016-07-10-11:00/00"
+********************************************
+date = 2016-07-10-11:00/00
+Reading /srv/eyesofnetwork/notifier/etc//notifier.rules data_type: 
+        0:*:*:-:UP:*:*:*:sms:1
+        0:*:*:-:*:*:*:1:email,sms:0
+    
+#### matching rule ` 0:*:*:-:UP:*:*:*:sms:1 '....
+found contact ` vincent@fricouv.eu(groups=) ' in ` * '
+found today jeu. in * 
+found host localhost in * 
+found state ` UP ' in ` UP '
+found time 2016-07-10-11:00:00 in *
+found notification number 1 in * 
+current priority = 100; new priority(wildcard matching) = 5....replace with this rule
+#### matching rule ` 0:*:*:-:*:*:*:1:email,sms:0 '....
+found contact ` vincent@fricouv.eu(groups=) ' in ` * '
+found today jeu. in * 
+found host localhost in * 
+found state ` UP ' in ` * '
+found time 2016-07-10-11:00:00 in *
+found notification number 1 in 1 
+current priority = 5; new priority(wildcard matching) = 5....merge this rule
+#### notify host by email
+command = /usr/bin/printf "%b" "***** EyesOfNetwork  *****\\n\\nNotification Type: host\\nHost: localhost\\nState: UP\\nAddress: 127.0.0.1\\nInfo: DOWN\\n\\nDate/Time: 2016-07-10-11:00/00\\n" | /bin/mail -s "Host UP alert for localhost!" vincent@fricouv.eu
+#### notify host by sms
+command = /srv/eyesofnetwork/nagios/plugins/envoi_sms.sh  "localhost Status: UP  2016-07-10-11:00/00"
+********************************************
+date = 2016-07-10-11:00/00
+Reading /srv/eyesofnetwork/notifier/etc//notifier.rules data_type: 
+        0:*:*:-:UP:*:*:*:sms:1
+        0:*:*:-:*:*:*:1:email,sms:0
+    
+#### matching rule ` 0:*:*:-:UP:*:*:*:sms:1 '....
+found contact ` vincent@fricouv.eu(groups=) ' in ` * '
+found today jeu. in * 
+found host localhost in * 
+can't find state ` DOWN ' in ` UP '....skip this rule
+#### matching rule ` 0:*:*:-:*:*:*:1:email,sms:0 '....
+found contact ` vincent@fricouv.eu(groups=) ' in ` * '
+found today jeu. in * 
+found host localhost in * 
+found state ` DOWN ' in ` * '
+found time 2016-07-10-11:00:00 in *
+found notification number 1 in 1 
+current priority = 100; new priority(wildcard matching) = 5....replace with this rule
+#### notify host by email
+command = /usr/bin/printf "%b" "***** EyesOfNetwork  *****\\n\\nNotification Type: host\\nHost: localhost\\nState: DOWN\\nAddress: 127.0.0.1\\nInfo: DOWN\\n\\nDate/Time: 2016-07-10-11:00/00\\n" | /bin/mail -s "Host DOWN alert for localhost!" vincent@fricouv.eu
+#### notify host by sms
+command = /srv/eyesofnetwork/nagios/plugins/envoi_sms.sh  "localhost Status: DOWN  2016-07-10-11:00/00"
+********************************************
+date = 2016-07-10-11:00/00
+Reading /srv/eyesofnetwork/notifier/etc//notifier.rules data_type: 
+        0:*:*:-:UP:*:*:*:sms:1
+        0:*:*:-:*:*:*:1:email,sms:0
+    
+#### matching rule ` 0:*:*:-:UP:*:*:*:sms:1 '....
+found contact ` vincent@fricouv.eu(groups=) ' in ` * '
+found today jeu. in * 
+found host localhost in * 
+found state ` UP ' in ` UP '
+found time 2016-07-10-11:00:00 in *
+found notification number 1 in * 
+current priority = 100; new priority(wildcard matching) = 5....replace with this rule
+#### matching rule ` 0:*:*:-:*:*:*:1:email,sms:0 '....
+found contact ` vincent@fricouv.eu(groups=) ' in ` * '
+found today jeu. in * 
+found host localhost in * 
+found state ` UP ' in ` * '
+found time 2016-07-10-11:00:00 in *
+found notification number 1 in 1 
+current priority = 5; new priority(wildcard matching) = 5....merge this rule
+#### notify host by email
+command = /usr/bin/printf "%b" "***** EyesOfNetwork  *****\\n\\nNotification Type: host\\nHost: localhost\\nState: UP\\nAddress: 127.0.0.1\\nInfo: DOWN\\n\\nDate/Time: 2016-07-10-11:00/00\\n" | /bin/mail -s "Host UP alert for localhost!" vincent@fricouv.eu
+#### notify host by sms
+command = /srv/eyesofnetwork/nagios/plugins/envoi_sms.sh  "localhost Status: UP  2016-07-10-11:00/00"
+********************************************
+date = 2016-07-10-11:00/00
+Reading /srv/eyesofnetwork/notifier/etc//notifier.rules data_type: 
+        0:*:*:-:UP:*:*:*:sms:1
+        0:*:*:-:*:*:*:1:email,sms:0
+    
+#### matching rule ` 0:*:*:-:UP:*:*:*:sms:1 '....
+found contact ` vincent@fricouv.eu(groups=) ' in ` * '
+found today jeu. in * 
+found host localhost in * 
+found state ` UP ' in ` UP '
+found time 2016-07-10-11:00:00 in *
+found notification number 1 in * 
+current priority = 100; new priority(wildcard matching) = 5....replace with this rule
+#### matching rule ` 0:*:*:-:*:*:*:1:email,sms:0 '....
+found contact ` vincent@fricouv.eu(groups=) ' in ` * '
+found today jeu. in * 
+found host localhost in * 
+found state ` UP ' in ` * '
+found time 2016-07-10-11:00:00 in *
+found notification number 1 in 1 
+current priority = 5; new priority(wildcard matching) = 5....merge this rule
+#### notify host by email
+command = /usr/bin/printf "%b" "***** EyesOfNetwork  *****\\n\\nNotification Type: host\\nHost: localhost\\nState: UP\\nAddress: 127.0.0.1\\nInfo: DOWN\\n\\nDate/Time: 2016-07-10-11:00/00\\n" | /bin/mail -s "Host UP alert for localhost!" vincent@fricouv.eu
+#### notify host by sms
+command = /srv/eyesofnetwork/nagios/plugins/envoi_sms.sh  "localhost Status: UP  2016-07-10-11:00/00"
+********************************************
+date = 2016-07-10-11:00/00
+Reading /srv/eyesofnetwork/notifier/etc//notifier.rules data_type: 
+        0:*:*:-:UP:*:*:*:sms:1
+        0:*:*:-:*:*:*:1:email,sms:0
+    
+#### matching rule ` 0:*:*:-:UP:*:*:*:sms:1 '....
+found contact ` vincent@fricouv.eu(groups=) ' in ` * '
+found today jeu. in * 
+found host localhost in * 
+found state ` UP ' in ` UP '
+found time 2016-07-10-11:00:00 in *
+found notification number 1 in * 
+current priority = 100; new priority(wildcard matching) = 5....replace with this rule
+#### matching rule ` 0:*:*:-:*:*:*:1:email,sms:0 '....
+found contact ` vincent@fricouv.eu(groups=) ' in ` * '
+found today jeu. in * 
+found host localhost in * 
+found state ` UP ' in ` * '
+found time 2016-07-10-11:00:00 in *
+found notification number 1 in 1 
+current priority = 5; new priority(wildcard matching) = 5....merge this rule
+#### notify host by email
+command = 
+#### notify host by sms
+command = /srv/eyesofnetwork/nagios/plugins/envoi_sms.sh  "localhost Status: UP  2016-07-10-11:00/00"
+********************************************
+date = 2016-07-10-11:00/00
+Reading /srv/eyesofnetwork/notifier/etc//notifier.rules data_type: 
+        0:*:*:-:UP:*:*:*:sms:1
+        0:*:*:-:*:*:*:1:email,sms:0
+    
+#### matching rule ` 0:*:*:-:UP:*:*:*:sms:1 '....
+found contact ` vincent@fricouv.eu(groups=) ' in ` * '
+found today jeu. in * 
+found host localhost in * 
+can't find state ` DOWN ' in ` UP '....skip this rule
+#### matching rule ` 0:*:*:-:*:*:*:1:email,sms:0 '....
+found contact ` vincent@fricouv.eu(groups=) ' in ` * '
+found today jeu. in * 
+found host localhost in * 
+found state ` DOWN ' in ` * '
+found time 2016-07-10-11:00:00 in *
+found notification number 1 in 1 
+current priority = 100; new priority(wildcard matching) = 5....replace with this rule
+#### notify host by email
+command = 
+#### notify host by sms
+command = /srv/eyesofnetwork/nagios/plugins/envoi_sms.sh  "localhost Status: DOWN  2016-07-10-11:00/00"
+********************************************
+date = 2016-07-10-11:00/00
+Reading /srv/eyesofnetwork/notifier/etc//notifier.rules data_type: 
+        0:*:*:-:UP:*:*:*:sms:1
+        0:*:*:-:*:*:*:1:email,sms:0
+    
+#### matching rule ` 0:*:*:-:UP:*:*:*:sms:1 '....
+found contact ` vincent@fricouv.eu(groups=) ' in ` * '
+found today jeu. in * 
+found host localhost in * 
+found state ` UP ' in ` UP '
+found time 2016-07-10-11:00:00 in *
+found notification number 1 in * 
+current priority = 100; new priority(wildcard matching) = 5....replace with this rule
+#### matching rule ` 0:*:*:-:*:*:*:1:email,sms:0 '....
+found contact ` vincent@fricouv.eu(groups=) ' in ` * '
+found today jeu. in * 
+found host localhost in * 
+found state ` UP ' in ` * '
+found time 2016-07-10-11:00:00 in *
+found notification number 1 in 1 
+current priority = 5; new priority(wildcard matching) = 5....merge this rule
+#### notify host by email
+command = 
+#### notify host by sms
+command = /srv/eyesofnetwork/nagios/plugins/envoi_sms.sh  "localhost Status: UP  2016-07-10-11:00/00"
+********************************************
+date = 2016-07-10-11:00/00
+Reading /srv/eyesofnetwork/notifier/etc//notifier.rules data_type: 
+        0:*:*:-:UP:*:*:*:sms:1
+        0:*:*:-:*:*:*:1:email,sms:0
+    
+#### matching rule ` 0:*:*:-:UP:*:*:*:sms:1 '....
+found contact ` vincent@fricouv.eu(groups=) ' in ` * '
+found today jeu. in * 
+found host localhost in * 
+can't find state ` DOWN ' in ` UP '....skip this rule
+#### matching rule ` 0:*:*:-:*:*:*:1:email,sms:0 '....
+found contact ` vincent@fricouv.eu(groups=) ' in ` * '
+found today jeu. in * 
+found host localhost in * 
+found state ` DOWN ' in ` * '
+found time 2016-07-10-11:00:00 in *
+found notification number 1 in 1 
+current priority = 100; new priority(wildcard matching) = 5....replace with this rule
+#### notify host by email
+command = 
+#### notify host by sms
+command = /srv/eyesofnetwork/nagios/plugins/envoi_sms.sh  "localhost Status: DOWN  2016-07-10-11:00/00"
+********************************************
+date = 2016-07-10-11:00/00
+Reading /srv/eyesofnetwork/notifier/etc//notifier.rules data_type: 
+        0:*:*:-:UP:*:*:*:sms:1
+        0:*:*:-:*:*:*:1:email,sms:0
+    
+#### matching rule ` 0:*:*:-:UP:*:*:*:sms:1 '....
+found contact ` vincent@fricouv.eu(groups=) ' in ` * '
+found today jeu. in * 
+found host localhost in * 
+found state ` UP ' in ` UP '
+found time 2016-07-10-11:00:00 in *
+found notification number 1 in * 
+current priority = 100; new priority(wildcard matching) = 5....replace with this rule
+#### matching rule ` 0:*:*:-:*:*:*:1:email,sms:0 '....
+found contact ` vincent@fricouv.eu(groups=) ' in ` * '
+found today jeu. in * 
+found host localhost in * 
+found state ` UP ' in ` * '
+found time 2016-07-10-11:00:00 in *
+found notification number 1 in 1 
+current priority = 5; new priority(wildcard matching) = 5....merge this rule
+#### notify host by email
+command = 
+#### notify host by sms
+command = /srv/eyesofnetwork/nagios/plugins/envoi_sms.sh  "localhost Status: UP  2016-07-10-11:00/00"
+********************************************
+date = 2016-07-10-11:00/00
+Reading /srv/eyesofnetwork/notifier/etc//notifier.rules data_type: 
+        0:*:*:-:UP:*:*:*:sms:1
+        0:*:*:-:*:*:*:1:email-appDOWN:0
+    
+#### matching rule ` 0:*:*:-:UP:*:*:*:sms:1 '....
+found contact ` vincent@fricouv.eu(groups=) ' in ` * '
+found today jeu. in * 
+found host localhost in * 
+can't find state ` DOWN ' in ` UP '....skip this rule
+#### matching rule ` 0:*:*:-:*:*:*:1:email-appDOWN:0 '....
+found contact ` vincent@fricouv.eu(groups=) ' in ` * '
+found today jeu. in * 
+found host localhost in * 
+found state ` DOWN ' in ` * '
+found time 2016-07-10-11:00:00 in *
+found notification number 1 in 1 
+current priority = 100; new priority(wildcard matching) = 5....replace with this rule
+#### notify host by email-appDOWN
+command = /usr/bin/printf "%b" "***** EyesOfNetwork  *****\\n\\nNotification Type: host\\nHost: localhost\\nState: DOWN\\nAddress: 127.0.0.1\\nInfo: DOWN\\n\\nDate/Time: 2016-07-10-11:00/00\\n" | /bin/mail -s "Host DOWN alert for localhost!" vincent@fricouv.eu
+********************************************
+date = 2016-07-10-11:00/00
+Reading /srv/eyesofnetwork/notifier/etc//notifier.rules data_type: 
+        0:*:*:-:UP:*:*:*:sms:1
+        0:*:*:-:*:*:*:1:email-appDOWN:0
+    
+#### matching rule ` 0:*:*:-:UP:*:*:*:sms:1 '....
+found contact ` vincent@fricouv.eu(groups=) ' in ` * '
+found today jeu. in * 
+found host localhost in * 
+found state ` UP ' in ` UP '
+found time 2016-07-10-11:00:00 in *
+found notification number 1 in * 
+current priority = 100; new priority(wildcard matching) = 5....replace with this rule
+#### matching rule ` 0:*:*:-:*:*:*:1:email-appDOWN:0 '....
+found contact ` vincent@fricouv.eu(groups=) ' in ` * '
+found today jeu. in * 
+found host localhost in * 
+found state ` UP ' in ` * '
+found time 2016-07-10-11:00:00 in *
+found notification number 1 in 1 
+current priority = 5; new priority(wildcard matching) = 5....merge this rule
+#### notify host by email-appDOWN
+command = /usr/bin/printf "%b" "***** EyesOfNetwork  *****\\n\\nNotification Type: host\\nHost: localhost\\nState: UP\\nAddress: 127.0.0.1\\nInfo: DOWN\\n\\nDate/Time: 2016-07-10-11:00/00\\n" | /bin/mail -s "Host UP alert for localhost!" vincent@fricouv.eu
+********************************************
+date = 2016-07-10-11:00/00
+Reading /srv/eyesofnetwork/notifier/etc//notifier.rules data_type: 
+        0:*:*:-:UP:*:*:*:sms:1
+        0:*:*:-:*:*:*:1:email-appDOWN:0
+    
+#### matching rule ` 0:*:*:-:UP:*:*:*:sms:1 '....
+found contact ` vincent@fricouv.eu(groups=) ' in ` * '
+found today jeu. in * 
+found host localhost in * 
+can't find state ` DOWN ' in ` UP '....skip this rule
+#### matching rule ` 0:*:*:-:*:*:*:1:email-appDOWN:0 '....
+found contact ` vincent@fricouv.eu(groups=) ' in ` * '
+found today jeu. in * 
+found host localhost in * 
+found state ` DOWN ' in ` * '
+found time 2016-07-10-11:00:00 in *
+found notification number 1 in 1 
+current priority = 100; new priority(wildcard matching) = 5....replace with this rule
+#### notify host by email-appDOWN
+command = /usr/bin/printf "%b" "***** EyesOfNetwork  *****\\n\\nNotification Type: host\\nHost: localhost\\nState: DOWN\\nAddress: 127.0.0.1\\nInfo: DOWN\\n\\nDate/Time: 2016-07-10-11:00/00\\n" | /bin/mail -s "Host DOWN alert for localhost!" vincent@fricouv.eu
+********************************************
+date = 2016-07-10-11:00/00
+Reading /srv/eyesofnetwork/notifier/etc//notifier.rules data_type: 
+        0:*:*:-:UP:*:*:*:sms:1
+        0:*:*:-:*:*:*:1:email-appDOWN:0
+    
+#### matching rule ` 0:*:*:-:UP:*:*:*:sms:1 '....
+found contact ` vincent@fricouv.eu(groups=) ' in ` * '
+found today jeu. in * 
+found host localhost in * 
+found state ` UP ' in ` UP '
+found time 2016-07-10-11:00:00 in *
+found notification number 1 in * 
+current priority = 100; new priority(wildcard matching) = 5....replace with this rule
+#### matching rule ` 0:*:*:-:*:*:*:1:email-appDOWN:0 '....
+found contact ` vincent@fricouv.eu(groups=) ' in ` * '
+found today jeu. in * 
+found host localhost in * 
+found state ` UP ' in ` * '
+found time 2016-07-10-11:00:00 in *
+found notification number 1 in 1 
+current priority = 5; new priority(wildcard matching) = 5....merge this rule
+#### notify host by email-appDOWN
+command = /usr/bin/printf "%b" "***** EyesOfNetwork  *****\\n\\nNotification Type: host\\nHost: localhost\\nState: UP\\nAddress: 127.0.0.1\\nInfo: DOWN\\n\\nDate/Time: 2016-07-10-11:00/00\\n" | /bin/mail -s "Host UP alert for localhost!" vincent@fricouv.eu
+********************************************
+date = 2016-07-10-11:00/00
+Reading /srv/eyesofnetwork/notifier/etc//notifier.rules data_type: 
+        0:*:*:-:UP:*:*:*:sms:1
+        0:*:*:-:*:*:*:1:email-appDOWN:0
+    
+#### matching rule ` 0:*:*:-:UP:*:*:*:sms:1 '....
+found contact ` vincent@fricouv.eu(groups=) ' in ` * '
+found today jeu. in * 
+found host localhost in * 
+found state ` UP ' in ` UP '
+found time 2016-07-10-11:00:00 in *
+found notification number 1 in * 
+current priority = 100; new priority(wildcard matching) = 5....replace with this rule
+#### matching rule ` 0:*:*:-:*:*:*:1:email-appDOWN:0 '....
+found contact ` vincent@fricouv.eu(groups=) ' in ` * '
+found today jeu. in * 
+found host localhost in * 
+found state ` UP ' in ` * '
+found time 2016-07-10-11:00:00 in *
+found notification number 1 in 1 
+current priority = 5; new priority(wildcard matching) = 5....merge this rule
+#### notify host by email-appDOWN
+command = /usr/bin/printf "%b" "***** EyesOfNetwork  *****\\n\\nNotification Type: host\\nHost: localhost\\nState: UP\\nAddress: 127.0.0.1\\nInfo: DOWN\\n\\nDate/Time: 2016-07-10-11:00/00\\n" | /bin/mail -s "Host UP alert for localhost!" vincent@fricouv.eu
+#### notify host by sms
+command = /srv/eyesofnetwork/nagios/plugins/envoi_sms.sh  "localhost Status: UP  2016-07-10-11:00/00"
+********************************************
+date = 2016-07-10-11:00/00
+Reading /srv/eyesofnetwork/notifier/etc//notifier.rules data_type: 
+        0:*:*:-:UP:*:*:*:sms:1
+        0:*:*:-:*:*:*:1:email-appDOWN:0
+    
+#### matching rule ` 0:*:*:-:UP:*:*:*:sms:1 '....
+found contact ` vincent@fricouv.eu(groups=) ' in ` * '
+found today jeu. in * 
+found host localhost in * 
+can't find state ` DOWN ' in ` UP '....skip this rule
+#### matching rule ` 0:*:*:-:*:*:*:1:email-appDOWN:0 '....
+found contact ` vincent@fricouv.eu(groups=) ' in ` * '
+found today jeu. in * 
+found host localhost in * 
+found state ` DOWN ' in ` * '
+found time 2016-07-10-11:00:00 in *
+found notification number 1 in 1 
+current priority = 100; new priority(wildcard matching) = 5....replace with this rule
+#### notify host by email-appDOWN
+command = /usr/bin/printf "%b" "***** EyesOfNetwork  *****\\n\\nNotification Type: host\\nHost: localhost\\nState: DOWN\\nAddress: 127.0.0.1\\nInfo: DOWN\\n\\nDate/Time: 2016-07-10-11:00/00\\n" | /bin/mail -s "Host DOWN alert for localhost!" vincent@fricouv.eu
+********************************************
+date = 2016-07-10-11:00/00
+Reading /srv/eyesofnetwork/notifier/etc//notifier.rules data_type: 
+        0:*:*:-:UP:*:*:*:sms:1
+        0:*:*:-:*:*:*:1:email-appDOWN:0
+    
+#### matching rule ` 0:*:*:-:UP:*:*:*:sms:1 '....
+found contact ` vincent@fricouv.eu(groups=) ' in ` * '
+found today jeu. in * 
+found host localhost in * 
+found state ` UP ' in ` UP '
+found time 2016-07-10-11:00:00 in *
+found notification number 1 in * 
+current priority = 100; new priority(wildcard matching) = 5....replace with this rule
+#### matching rule ` 0:*:*:-:*:*:*:1:email-appDOWN:0 '....
+found contact ` vincent@fricouv.eu(groups=) ' in ` * '
+found today jeu. in * 
+found host localhost in * 
+found state ` UP ' in ` * '
+found time 2016-07-10-11:00:00 in *
+found notification number 1 in 1 
+current priority = 5; new priority(wildcard matching) = 5....merge this rule
+#### notify host by email-appDOWN
+command = /usr/bin/printf "%b" "***** EyesOfNetwork  *****\\n\\nNotification Type: host\\nHost: localhost\\nState: UP\\nAddress: 127.0.0.1\\nInfo: DOWN\\n\\nDate/Time: 2016-07-10-11:00/00\\n" | /bin/mail -s "Host UP alert for localhost!" vincent@fricouv.eu
+#### notify host by email-appUP
+command = /usr/bin/printf "%b" "***** EyesOfNetwork  *****\\n\\nNotification Type: host\\nHost: localhost\\nState: UP\\nAddress: 127.0.0.1\\nInfo: DOWN\\n\\nDate/Time: 2016-07-10-11:00/00\\n" | /bin/mail -s "Host UP alert for localhost!" vincent@fricouv.eu
