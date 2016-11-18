@@ -26,4 +26,17 @@ A script exist to automaticaly create database on running system if default mysq
 Just launch this script to create database.
 
 ## Roadmap
-* Creation of web GUI to rules configuration 
+* Creation of web GUI to rules configuration
+
+## Troubleshooting
+Notifier manual execution command :
+```bash
+./notifier.pl -t <host|service> -c <config_file_path> -r <rules_file_path> -T <YYYY-MM-DD-HH:mm:ss> -h <hostname> -A <hostgroup> -B <servicegroup> -s <servicename> -e <state> -i <hostaddress> -n <method> -C <contact_email> -O <output> -X <YYYY-MM-DD-HH:mm:ss> -Y <notification_number> -N <contact_pager>
+```
+### SQL Syntax error
+If you have an SQL Syntax error at notifier execution, probably you've not authorized characters in message body as quote or doublequote. Check this.
+### Tracking not work
+1. Check if you’ve correctly activate tracking option in rules file (Last field on each rules file line).
+2. Check if your commande name have the correct form as <command_def><STATE> (example: sms-appCRITICAL).
+
+
