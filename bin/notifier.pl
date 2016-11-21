@@ -19,8 +19,8 @@
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
 
-use POSIX qw(locale_h);	## Modif L.P
-use POSIX qw(strftime);	## Modif L.P
+use POSIX qw(locale_h);
+use POSIX qw(strftime);
 use Getopt::Std;
 use File::Basename;
 use XML::Simple;
@@ -313,22 +313,20 @@ foreach( split( /\n/, $$rules{$data_type} ) )
 		if ( $state ne $prev_state )
 		{
 			my $array_methods;
-			foreach my $uniq_methods (@prev_methods) 
+			foreach my $uniq_methods (@prev_methods)
 			{
 				($cmd,$etat) = $uniq_methods =~ /([a-z\-]+)(.*)$/;
 				if ( $etat ne '' )
-				{ 
+				{
 					$adapt_methods=fill_method_array($cmd,$state);
 				} else {
 					$adapt_methods=fill_method_array($cmd);
 				}
 			}
-			print "Finish foreach : $adapt_methods\n";
-			$prev_methods=$adapt_methods;
-			$methods=$prev_methods;
+			$methods=$adapt_methods;
 		}
 	}
-	
+
 	if( $wildcard > $priority )
 	{
 		print LOGRULES "current priority = $priority; new priority(wildcard matching) = $wildcard....ignore this rule\n" if ($debug_rules == 1 || $debug_rules == 3 || $rudebug == 1);
