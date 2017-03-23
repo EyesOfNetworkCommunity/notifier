@@ -11,8 +11,8 @@
     <service>
         0:*:*:*:*:*:*:1:email:0
         0:*:*:*:OK:*:*:*:email:1
-	0:*:*:Applications:CRITICAL:*:*:1:email-appCRITICAL:0
-	0:*:*:Applications:WARNING:*:*:1:email-appWARNING:0
-	0:*:*:Applications:OK:*:*:*:email-appOK:1
+        0:*:*:Applications:CRITICAL:*:*:1:email-appCRITICAL:0
+        0:*:*:Applications:WARNING:*:*:1:email-appWARNING:0
+        0:*:*:Applications:OK:*:*:*:email-appOK:1
     </service>
 </rules>

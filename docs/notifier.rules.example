@@ -4,11 +4,11 @@
     <notifsent_file> /srv/eyesofnetwork/notifier/log/notifier_send.log </notifsent_file>
 
     <host>
-    0:*:*:-:*:*:*:*:email
+    0:*:*:-:*:*:*:*:email:0
     </host>
 
     <service>
-    0:*:*:*:*:*:*:*:email
+    0:*:*:*:*:*:*:*:email:0
     </service>
 </rules>
 
@@ -28,7 +28,7 @@ notifsent_file :
 	notifsent_file is the file where is logged the sent notification history (state 2 or 3)
 	By default, the log is in /srv/eyesofnetwork/notifier/log/notifier_send.log
 
-rules_debug:contact:host:service:state:dayofweek:timeperiod:notificationnumber:method
+rules_debug:contact:host:service:state:dayofweek:timeperiod:notificationnumber:method:tracking
 
 rules_debug : active full debug only on the rule.
 contact : person or group to notify
@@ -39,6 +39,7 @@ dayofweeb : Day of week to would be notified by the rule
 timeperiod : Time range to would be notified by the rule 
 notificationnumber : Minimal number of notification to match the rule
 method : Notification method
+tracking : Activate notification method tracking. This option is design to check previous notification method on same host/service and re-use it.
 
 
 Example  : 

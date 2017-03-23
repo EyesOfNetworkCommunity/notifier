@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 ##
-## Program: notifier.pl v2.0, Rule-based Notification Addon for Nagios(r)
+## Program: notifier.pl v2.1, Rule-based Notification Addon for Nagios(r)
 ## License: GPL
 ## Copyleft 2013 Vincent Fricou (vincent.fricou@gmail.com)
 ## Hugely inspired by the excellent work of Yueh-Hung Liu (yuehung.liu@gmail.com)
