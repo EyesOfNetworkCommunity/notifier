@@ -67,6 +67,7 @@ my $host_source;
 my $host_state;
 my $host_address;
 my $notification_type;
+my $contact_name;
 my $contact_mail;
 my $nagios_longtimedate;
 
@@ -82,7 +83,7 @@ my $service_output;
 $dbh = DBI->connect("DBI:mysql:notifier:127.0.0.1", $sqluser, $sqlpassword);
 
 %options=();
-getopts( "t:c:r:h:s:e:T:i:n:C:O:G:N:A:B:X:Y:", \%options);
+getopts( "t:c:r:h:s:e:T:i:n:C:O:G:N:A:B:X:Y:M:", \%options);
 $nagios_longtimedate=$options{T};
 $data_type=$options{t};
 $config_file=$options{c};
@@ -95,7 +96,8 @@ $host_address=$options{i};
 $notification_type=$options{n};
 $host_output=$options{O};
 
-$contact_mail=$options{C};
+$contact_name=$options{C};
+$contact_mail=$options{M};
 $service_state=$options{e};
 $service_output=$options{O};
 $service_desc=$options{s};
@@ -121,7 +123,7 @@ if( $rules_file eq "" )
 
 if( $data_type ne "host" && $data_type ne "service" )
 {
-	print "usage: $0 -t {host|service} [-c <config file>] [-r <rules file>] [-T TIME] [-h host] [-s service] [-e state] [-i IP] [-n notification_type] [-C contact_mail] [-O Output] [-A HostGroup] [-B ServiceGroup] [-G ContactGroup] [-N ContactPager] [-X NagiosTime] [-Y NagiosNotificationNumber ]\n";
+	print "usage: $0 -t {host|service} [-c <config file>] [-r <rules file>] [-T TIME] [-h host] [-s service] [-e state] [-i IP] [-n notification_type] [-C contact_name] [-M contact_mail] [-O Output] [-A HostGroup] [-B ServiceGroup] [-G ContactGroup] [-N ContactPager] [-X NagiosTime] [-Y NagiosNotificationNumber ]\n";
 	exit 1;
 }
 
@@ -166,6 +168,7 @@ print LOG "host_output = $host_output\n" if $debug;
 
 print LOG "service_state = $service_state\n" if $debug;
 print LOG "service_desc = $service_desc\n" if $debug;
+print LOG "contact_name = $contact_name\n" if $debug;
 print LOG "contact_mail = $contact_mail\n" if $debug;
 print LOG "service_output = $service_output\n" if $debug;
 
@@ -216,17 +219,17 @@ foreach( split( /\n/, $$rules{$data_type} ) )
 	print LOGRULES "#### matching rule ` $_ '....\n" if ($debug_rules == 1 || $debug_rules == 3 || $rudebug == 1);
 	$wildcard = 0;
 
-	foreach( split( /,/, $group_contact), $contact_mail )
+	foreach( split( /,/, $group_contact), $contact_name )
         {
 		$found = in_array( $_, split( /[\s]*,[\s]*/, $contacts ) );
 		last if $found;
         }
 	if( ! $found )
 	{
-		print LOGRULES "can't find contact  $contact_mail(groups=$group_contact) in $contacts ....skip this rule\n" if ($debug_rules == 1 || $debug_rules == 3 || $rudebug == 1);
+		print LOGRULES "can't find contact  $contact_name(groups=$group_contact) in $contacts ....skip this rule\n" if ($debug_rules == 1 || $debug_rules == 3 || $rudebug == 1);
 		next;
 	}
-	print LOGRULES "found contact ` $contact_mail(groups=$group_contact) ' in ` $contacts '\n" if ($debug_rules == 1 || $debug_rules == 3 || $rudebug == 1);
+	print LOGRULES "found contact ` $contact_name(groups=$group_contact) ' in ` $contacts '\n" if ($debug_rules == 1 || $debug_rules == 3 || $rudebug == 1);
 	$wildcard += $found-1;
 
 	$today=lc(strftime "%a", gmtime);
@@ -302,9 +305,9 @@ foreach( split( /\n/, $$rules{$data_type} ) )
 	{
 		if ( ! $service_desc )
 		{
-			$query_analysis = "SELECT state,method FROM notifier.sents_logs WHERE contact='".$contact_mail."' AND host='".$host_source."' order by id desc limit 1;";
+			$query_analysis = "SELECT state,method FROM notifier.sents_logs WHERE contact='".$contact_name."' AND host='".$host_source."' order by id desc limit 1;";
 		} else {
-			$query_analysis = "SELECT state,method FROM notifier.sents_logs WHERE contact='".$contact_mail."' AND host='".$host_source."' AND service='".$service_desc."' order by id desc limit 1;";
+			$query_analysis = "SELECT state,method FROM notifier.sents_logs WHERE contact='".$contact_name."' AND host='".$host_source."' AND service='".$service_desc."' order by id desc limit 1;";
 		}
 		@results = $dbh->selectrow_array($query_analysis);
 		$prev_state = $results[0];
@@ -338,7 +341,7 @@ foreach( split( /\n/, $$rules{$data_type} ) )
 		$calledmethods="$methods";
 		foreach( split( /[\s]*,[\s]*/, $methods ) )
 		{
-			print NOTIFSENTRULES "$nagios_longtimedate Sent notification to $contact_mail on $host_source $service_desc for state $state by $methods with priority $priority on notifiaction number $nagios_notification_number | {Matched rules : $rudebug;$contacts;$hosts;$services;$states;$days;$timeperiods;$numbers;$methods}\n" if( $debug_rules == 2  || $debug_rules == 3 );
+			print NOTIFSENTRULES "$nagios_longtimedate Sent notification to $contact_name on $host_source $service_desc for state $state by $methods with priority $priority on notifiaction number $nagios_notification_number | {Matched rules : $rudebug;$contacts;$hosts;$services;$states;$days;$timeperiods;$numbers;$methods}\n" if( $debug_rules == 2  || $debug_rules == 3 );
 			$methods_hash{$_} = 1;
 		}
 	}
@@ -351,7 +354,7 @@ foreach( split( /\n/, $$rules{$data_type} ) )
 		%methods_hash = ();
 		foreach( split( /[\s]*,[\s]*/, $methods ) )
 		{
-			print NOTIFSENTRULES "$nagios_longtimedate Sent notification to $contact_mail on $host_source $service_desc for state $state by $methods with priority $priority on notification number $nagios_notification_number | {Matched rules : $rudebug;$contacts;$hosts;$services;$states;$days;$timeperiods;$numbers;$methods}\n" if( $debug_rules == 2  || $debug_rules == 3 );
+			print NOTIFSENTRULES "$nagios_longtimedate Sent notification to $contact_name on $host_source $service_desc for state $state by $methods with priority $priority on notification number $nagios_notification_number | {Matched rules : $rudebug;$contacts;$hosts;$services;$states;$days;$timeperiods;$numbers;$methods}\n" if( $debug_rules == 2  || $debug_rules == 3 );
 			$methods_hash{$_} = 1;
 		}
 	}
@@ -493,9 +496,12 @@ sub notify
 	$commands{$method} =~ s/\$SERVICEOUTPUT\$/$service_output/g;
 	$commands{$method} =~ s/\$SERVICESTATE\$/$service_state/g;
 	$commands{$method} =~ s/\$HOSTNAME\$/$host_source/g;
+	$commands{$method} =~ s/\$CONTACTNAME\$/$contact_name/g;
 	$commands{$method} =~ s/\$CONTACTEMAIL\$/$contact_mail/g;
 	$commands{$method} =~ s/\$CONTACTPAGER\$/$contact_pager/g;
 	$commands{$method} =~ s/\$HOSTSTATE\$/$host_state/g;
+	$commands{$method} =~ s/\$HOSTGROUPNAMES\$/$group_host/g;
+	$commands{$method} =~ s/\$SERVICEGROUPNAMES\$/$group_service/g;
 	$commands{$method} =~ s/\$HOSTOUTPUT\$/$host_output/g;
 	$commands{$method} =~ s/\$HOSTSTATE\$/$host_state/g;
 	print LOG "command = $commands{$method}\n" if $debug;
@@ -506,20 +512,20 @@ sub notify
 	$state = $data_type eq "host" ? $host_state : $service_state;
 	if ($? == -1) {
 		my $notifier_duration = time - $notifier_dur_start;
-		$query = "INSERT INTO notifier.sents_logs (nagios_date, contact, host, service, state, notification_number, method, priority, matched_rule, exit_code, exit_command, epoch, cmd_duration, notifier_duration) VALUES('".$nagios_longtimedate."', '".$contact_mail."', '".$host_source."', '".$service_desc."', '".$state."', '".$nagios_notification_number."',  '".$calledmethods."', $priority, '$mrules', $?, '".$commands{$method}."', $epoch, $cmd_duration, $notifier_duration)";
+		$query = "INSERT INTO notifier.sents_logs (nagios_date, contact, host, service, state, notification_number, method, priority, matched_rule, exit_code, exit_command, epoch, cmd_duration, notifier_duration) VALUES('".$nagios_longtimedate."', '".$contact_name."', '".$host_source."', '".$service_desc."', '".$state."', '".$nagios_notification_number."',  '".$calledmethods."', $priority, '$mrules', $?, '".$commands{$method}."', $epoch, $cmd_duration, $notifier_duration)";
 		$dbh->do($query);
         print NOTIFSENTRULES "Failed to execute: $! The final command was: $commands{$method} \n-----\n";
     }
     elsif ($? & 127) {
 		my $notifier_duration = time - $notifier_dur_start;
-		$query = "INSERT INTO notifier.sents_logs (nagios_date, contact, host, service, state, notification_number, method, priority, matched_rule, exit_code, exit_command, epoch, cmd_duration, notifier_duration) VALUES('".$nagios_longtimedate."', '".$contact_mail."', '".$host_source."', '".$service_desc."', '".$state."', '".$nagios_notification_number."',  '".$calledmethods."', $priority, '$mrules', $?, '".$commands{$method}."', $epoch, $cmd_duration, $notifier_duration)";
+		$query = "INSERT INTO notifier.sents_logs (nagios_date, contact, host, service, state, notification_number, method, priority, matched_rule, exit_code, exit_command, epoch, cmd_duration, notifier_duration) VALUES('".$nagios_longtimedate."', '".$contact_name."', '".$host_source."', '".$service_desc."', '".$state."', '".$nagios_notification_number."',  '".$calledmethods."', $priority, '$mrules', $?, '".$commands{$method}."', $epoch, $cmd_duration, $notifier_duration)";
 		$dbh->do($query);
         printf NOTIFSENTRULES "Child died with signal %d, %s coredump. The final command was: $commands{$method} \n-----\n",
             ($? & 127),  ($? & 128) ? 'with' : 'without';
     }
     else {
 		my $notifier_duration = time - $notifier_dur_start;
-		$query = "INSERT INTO notifier.sents_logs (nagios_date, contact, host, service, state, notification_number, method, priority, matched_rule, exit_code, exit_command, epoch, cmd_duration, notifier_duration) VALUES('".$nagios_longtimedate."', '".$contact_mail."', '".$host_source."', '".$service_desc."', '".$state."', '".$nagios_notification_number."', '".$calledmethods."', $priority, '$mrules', $?, '".$commands{$method}."', $epoch, $cmd_duration, $notifier_duration)";
+		$query = "INSERT INTO notifier.sents_logs (nagios_date, contact, host, service, state, notification_number, method, priority, matched_rule, exit_code, exit_command, epoch, cmd_duration, notifier_duration) VALUES('".$nagios_longtimedate."', '".$contact_name."', '".$host_source."', '".$service_desc."', '".$state."', '".$nagios_notification_number."', '".$calledmethods."', $priority, '$mrules', $?, '".$commands{$method}."', $epoch, $cmd_duration, $notifier_duration)";
 		$dbh->do($query);
         printf NOTIFSENTRULES "Child exited with value %d. The final command was: $commands{$method} \n-----\n", $? >> 8;
     }
