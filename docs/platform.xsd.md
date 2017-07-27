@@ -1,3 +1,5 @@
+# Platform.xsd
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<xsd:element name="MESSAGE_GROUP">
@@ -36,3 +38,4 @@
 	<xsd:element name="DEST_NAME" type="xsd:string"/>
 	<xsd:element name="MESSAGE_CONTENT" type="xsd:string"/>
 </xsd:schema>
+```

@@ -1,3 +1,8 @@
+# Notifier.cfg
+This is an exemple of notifier.cfg.  
+This is to the original content of file.
+
+```xml
 <config>
 
 	<debug>0</debug>
@@ -19,4 +24,11 @@
     		</service>
 	</commands>
 </config>
+```
 
+## Fields
+**debug** : Active debug for notifier.
+**log\_file** : Path to debug log file.
+**Command** : Contain list of commands could be launched by notifier.
+  **host** : Specifics command for host or hostgroup notifications.
+  **service** : Specifics command for service or servicegroup notifications.
