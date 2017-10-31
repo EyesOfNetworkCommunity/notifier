@@ -1,6 +1,7 @@
 # EyesOfNetwork advanced notifier unit.
 
 ## NEWS
+Version 2.1-1 release with new rules configurations contact field. According to future notifier GUI interface pre-requisites.
 Version 2.1 released with notification tracking.
 
 ### v2.1-1
