@@ -3,7 +3,7 @@
 ## NEWS
 Version 2.1 released with notification tracking.
 
-### v2.1-1-rc1
+### v2.1-1
 This version will introduce a change on rules declarations.
 
 This change affect the contact field in rules configurations.  
