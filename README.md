@@ -35,6 +35,11 @@ Just launch this script to create database.
 
 ## Roadmap
 * Creation of web GUI to rules configuration
+* Finish script with some checks on rules (for v2.1-1 migration)
+
+## Tools
+A script has be writted to migrate one version to other more easier.\\
+You'll find it in scripts/updates/v2.1\_to\_v2.1-1.sh
 
 ## Troubleshooting
 ### Version 2.1-1
