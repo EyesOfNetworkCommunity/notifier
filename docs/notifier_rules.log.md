@@ -8,7 +8,7 @@ Reading /srv/eyesofnetwork/notifier/etc/notifier.rules data_type:
     *:*:*:*:*:*:*:email
 
 #### matching rule ` *:*:*:*:*:*:*:email '....
-found contact ` root@localdomain(groups=admins) ' in ` * '
+found contact ` admin(groups=admins) ' in ` * '
 found today mon in * 
 found host localhost in * 
 found service process_ged in * 

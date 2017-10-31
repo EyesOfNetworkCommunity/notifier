@@ -58,6 +58,7 @@ Notifier manual execution command :
 ```
 ### SQL Syntax error
 If you have an SQL Syntax error at notifier execution, probably you've not authorized characters in message body as quote or doublequote. Check this.
+
 ### Tracking not work
 1. Check if you’ve correctly activate tracking option in rules file (Last field on each rules file line).
 2. Check if your command name have the correct form as <command_def><STATE> (example: sms-appCRITICAL).
