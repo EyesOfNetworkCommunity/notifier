@@ -38,8 +38,8 @@ Just launch this script to create database.
 * Finish script with some checks on rules (for v2.1-1 migration)
 
 ## Tools
-A script has be writted to migrate one version to other more easier.\\
-You'll find it in scripts/updates/v2.1\_to\_v2.1-1.sh
+A script has be writted to migrate one version to other more easier.  
+You'll find it in [notifier/scripts/updates/v2.1_to_v2.1-1.sh](https://github.com/EyesOfNetworkCommunity/notifier/scripts/updates/v2.1_to_v2.1-1.sh)
 
 ## Troubleshooting
 ### Version 2.1-1
