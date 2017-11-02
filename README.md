@@ -1,6 +1,7 @@
 # EyesOfNetwork advanced notifier unit.
 
 ## NEWS
+Version 2.1-1 release with new rules configurations contact field. According to future notifier GUI interface pre-requisites.
 Version 2.1 released with notification tracking.
 
 ### v2.1-1
@@ -35,6 +36,11 @@ Just launch this script to create database.
 
 ## Roadmap
 * Creation of web GUI to rules configuration
+* Finish script with some checks on rules (for v2.1-1 migration)
+
+## Tools
+A script has be writted to migrate one version to other more easier.  
+You'll find it in [notifier/scripts/updates/v2.1_to_v2.1-1.sh](https://github.com/EyesOfNetworkCommunity/notifier/scripts/updates/v2.1_to_v2.1-1.sh)
 
 ## Troubleshooting
 ### Version 2.1-1
