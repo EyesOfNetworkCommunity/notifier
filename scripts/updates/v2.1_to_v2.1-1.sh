@@ -20,7 +20,9 @@ Usage of ${ScriptName} :
         If you don't specify path, this script will use standard EyesOfNetwork notifier paths.
         The standard EyesOfNetwork ISO deployement path :
           - /srv/eyesofnetwork/notifier (symbolic link)
-            - /srv/eyesofnetwork/notifier-2.1-1 (folder containing notifier)\n"
+          - /srv/eyesofnetwork/notifier-2.1-1 (folder containing notifier)
+
+        Note : This script will automaticaly launch notifier.ruls file check to sort all configuration line with missing arguments.\n"
         exit 128
 }
 if [ ${1} ]
@@ -64,4 +66,7 @@ then
                 ln -s ${LatestNotifier} ${PrevNotifier}
         fi
 fi
+
+printf "Checking config file fields.\n"
+bash ./check_config_file.sh ${LatestNotifier}/etc/notifier.rules
 
