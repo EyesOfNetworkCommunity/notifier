@@ -10,8 +10,8 @@ This version will introduce a change on rules declarations.
 This change affect the contact field in rules configurations.  
 Now, to you'll specify not the contact email, but the contact login.
 
-Command change too. you'll need to specify a new field in command (-M) to give contact mail informations to notifier.  
-The previously field for contact email (-C) going contact name.
+Command change too. you'll need to specify a new field in command (-M - Nagios macro $CONTACTEMAIL$) to give contact mail informations to notifier.  
+The previously field for contact email (-C - Nagios macro $CONTACTNAME$) going contact name.
 
 ### V2.1
 The new release v2.1 include notifications tracking.
