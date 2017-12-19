@@ -1,5 +1,5 @@
 # EyesOfNetwork advanced notifier unit.
-
+[![Build Status](https://drone.fricouv.eu/api/badges/vfricou/notifier/status.svg)](http://drone.fricouv.eu/vfricou/notifier)
 ## NEWS
 Version 2.1-1 release with new rules configurations contact field. According to future notifier GUI interface pre-requisites.
 Version 2.1 released with notification tracking.
