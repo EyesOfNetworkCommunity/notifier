@@ -1,5 +1,5 @@
 # EyesOfNetwork advanced notifier unit.
-
+[![Build Status](https://drone.fricouv.eu/api/badges/vfricou/notifier/status.svg)](http://drone.fricouv.eu/vfricou/notifier)
 ## NEWS
 Version 2.1-1 release with new rules configurations contact field. According to future notifier GUI interface pre-requisites.
 Version 2.1 released with notification tracking.
@@ -41,6 +41,39 @@ Just launch this script to create database.
 ## Tools
 A script has be writted to migrate one version to other more easier.  
 You'll find it in [notifier/scripts/updates/v2.1_to_v2.1-1.sh](https://github.com/EyesOfNetworkCommunity/notifier/scripts/updates/v2.1_to_v2.1-1.sh)
+
+## Nagios commands
+Two commands are necessary to create into nagios (by lilac configuration into EyesOfNetwork).
+
+eon-host-notifier :
+```bash
+$USER3$/bin/notifier.pl -t host -c $USER3$/etc/notifier.cfg -r $USER3$/etc/notifier.rules -T "$LONGDATETIME$" -h "$HOSTNAME$" -e "$HOSTSTATE$" -i "$HOSTADDRESS$" -n "$NOTIFICATIONTYPE$" -C "$CONTACTNAME$" -M "$CONTACTEMAIL$" -O "$HOSTOUTPUT$" -A "$HOSTGROUPNAMES$" -G "$CONTACTGROUPNAMES$" -X "$TIME$" -Y "$HOSTNOTIFICATIONNUMBER$" -N "$CONTACTPAGER$"
+```
+eon-service-notifier :
+```bash
+$USER3$/bin/notifier.pl -t service -c $USER3$/etc/notifier.cfg -r $USER3$/etc/notifier.rules -T "$LONGDATETIME$" -h "$HOSTNAME$" -s "$SERVICEDESC$" -e "$SERVICESTATE$" -i "$HOSTADDRESS$" -n "$NOTIFICATIONTYPE$" -C "$CONTACTNAME$" -M "$CONTACTEMAIL$" -O "$SERVICEOUTPUT$" -A "$HOSTGROUPNAMES$" -B "$SERVICEGROUPNAMES$" -G "$CONTACTGROUPNAMES$" -X "$TIME$" -Y "$SERVICENOTIFICATIONNUMBER$" -N "$CONTACTPAGER$"
+```
+
+### Nagios macro used
+ - `$USER3$` : Nagios ressource corresponding to USER3. (Default : /srv/eyesofnetwork/notifier)
+ - `$LONGDATETIME$` : Human readable date (i.e. Mon Dec 18 08:35:12 CEST 1000)
+ - `$HOSTNAME$` : Name of host
+ - `$HOSTSTATE$` : State of host
+ - `$HOSTADDRESS` : Address of host (IP / FQDN)
+ - `$SERVICEDESC$` : Service description
+ - `$SERVICESTATE$` : Service state
+ - `$NOTIFICATIONTYPE$` : Type of notification
+ - `$CONTACTNAME$` : Username of contact (login)
+ - `$CONTACTEMAIL$` : e-mail of contact
+ - `$HOSTOUTPUT$` : Output returned by nagios plugin
+ - `$SERVICEOUTPUT$` : Output returned by nagios plugin
+ - `$HOSTGROUPNAMES$` : Names of linked hosts groups
+ - `$SERVICEGROUPNAMES$` : Names of linked services groups
+ - `$CONTACTGROUPNAMES$` : Names of linked contacts groups
+ - `$TIME` : Current time (i.e. 08:35:12)
+ - `$HOSTNOTIFICATIONNUMBER` : Number of notification already sent for this host
+ - `$SERVICENOTIFICATIONNUMBER` : Number of notification already sent for this service
+ - `$CONTACTPAGER$` : Pager of contact (Mobile phone number)
 
 ## Troubleshooting
 ### Version 2.1-1
