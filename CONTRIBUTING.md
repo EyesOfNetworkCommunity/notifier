@@ -9,7 +9,8 @@
   - [Versionning](#versionning)
 
 ## Introduction
-This document explains how to contribute changes to the [EyesOfNetwork](http://www.eyesofnetwork.com) notifier project.
+This document explains how to contribute to the [EyesOfNetwork](http://www.eyesofnetwork.com) notifier project.  
+This is a production ready project, assuming this, all changes willn't accepted if cause code or functionnality regression.
 
 ## Maintainers
 This part of [EyesOfNetwork](http://www.eyesofnetwork.com) solution is maintained essentialy by one person.  
