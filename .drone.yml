@@ -55,6 +55,7 @@ pipeline:
       - groupadd eyesofnetwork
       - rpmbuild -ba notifier.spec
       - yum install --assumeyes openssh-clients
+      - cat /root/.ssh/known_hosts
       - scp -r -o IdentityFile=/root/publish-key.ed25519 /root/rpmbuild/RPMS/  publish@www.fricouv.eu:~
   notify:
     image: drillster/drone-email
