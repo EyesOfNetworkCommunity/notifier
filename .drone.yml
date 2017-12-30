@@ -38,6 +38,7 @@ pipeline:
       - /var/run/docker.sock:/var/run/docker.sock
       - /etc/hosts:/etc/hosts:ro
       - /root/drone-github/drone-data/publish-key.ed25519:/root/publish-key.ed25519:ro
+      - /root/.ssh/known-www.fricouv.eu:/root/.ssh/known_host:ro
     commands:
       - yum install --assumeyes rpm-build mariadb mariadb-server
       - mysql_install_db
@@ -54,7 +55,7 @@ pipeline:
       - groupadd eyesofnetwork
       - rpmbuild -ba notifier.spec
       - yum install --assumeyes openssh-clients
-      - scp -r -o StrictHostKeyChecking=no,IdentityFile=/root/publish-key.ed25519 /root/rpmbuild/RPMS/  publish@www.fricouv.eu:~/rpm
+      - scp -r -o IdentityFile=/root/publish-key.ed25519 /root/rpmbuild/RPMS/  publish@www.fricouv.eu:~
   notify:
     image: drillster/drone-email
     secrets: [ email_username, email_password ]
