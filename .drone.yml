@@ -43,7 +43,7 @@ pipeline:
       - chown -R mysql:mysql /var/lib/mysql
       - /usr/bin/mysqld_safe &
       - mkdir -p /root/rpmbuild/{BUILD,BUILDROOT,RPMS,SOURCES,SPECS,SRPMS}
-      - mv /srv/eyesofnetwork/notifier/ /root/rpmbuild/SOURCES/notifier-2.1.1
+      - cp -pr /srv/eyesofnetwork/notifier/ /root/rpmbuild/SOURCES/notifier-2.1.1
       - cd /root/rpmbuild/SOURCES
       - tar czf notifier-2.1.1.tar.gz notifier-2.1.1
       - mv notifier-2.1.1 notifier
