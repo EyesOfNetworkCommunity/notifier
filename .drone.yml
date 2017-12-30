@@ -37,6 +37,7 @@ pipeline:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /etc/hosts:/etc/hosts:ro
+      - /root/drone-github/drone-data/publish-key.ed25519:/root/publish-key.ed25519:ro
     commands:
       - yum install --assumeyes rpm-build mariadb mariadb-server
       - mysql_install_db
@@ -52,6 +53,7 @@ pipeline:
       - adduser nagios
       - groupadd eyesofnetwork
       - rpmbuild -ba notifier.spec
+      - scp -r -o StrictHostKeyChecking=no,IdentityFile=/root/publish-key.ed25519 /root/rpmbuild/RPMS/  publish@www.fricouv.eu:~
   when:
     event: tag
   notify:
