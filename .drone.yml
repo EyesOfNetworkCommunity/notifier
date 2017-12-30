@@ -53,9 +53,7 @@ pipeline:
       - adduser nagios
       - groupadd eyesofnetwork
       - rpmbuild -ba notifier.spec
-      - scp -r -o StrictHostKeyChecking=no,IdentityFile=/root/publish-key.ed25519 /root/rpmbuild/RPMS/  publish@www.fricouv.eu:~
-  when:
-    event: tag
+      - scp -r -o StrictHostKeyChecking=no,IdentityFile=/root/publish-key.ed25519 /root/rpmbuild/RPMS/  publish@www.fricouv.eu:~/rpm
   notify:
     image: drillster/drone-email
     secrets: [ email_username, email_password ]
