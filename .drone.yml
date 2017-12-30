@@ -38,7 +38,7 @@ pipeline:
       - /var/run/docker.sock:/var/run/docker.sock
       - /etc/hosts:/etc/hosts:ro
       - /root/drone-github/drone-data/publish-key.ed25519:/root/publish-key.ed25519:ro
-      - /root/.ssh/known-www.fricouv.eu:/root/.ssh/known_host:ro
+      - /root/.ssh/known-www.fricouv.eu:/root/.ssh/known_hosts:ro
     commands:
       - yum install --assumeyes rpm-build mariadb mariadb-server
       - mysql_install_db
