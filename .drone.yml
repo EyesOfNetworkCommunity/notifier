@@ -52,6 +52,8 @@ pipeline:
       - adduser nagios
       - groupadd eyesofnetwork
       - rpmbuild -ba notifier.spec
+  when:
+    event: tag
   notify:
     image: drillster/drone-email
     secrets: [ email_username, email_password ]
