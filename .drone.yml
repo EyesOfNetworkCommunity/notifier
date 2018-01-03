@@ -56,7 +56,7 @@ pipeline:
       - rpmbuild -ba notifier.spec
       - yum install --assumeyes openssh-clients
       - cat /root/.ssh/known_hosts
-      - scp -r -o IdentityFile=/root/publish-key.ed25519 /root/rpmbuild/RPMS/  publish@www.fricouv.eu:~
+      - scp -r -o IdentityFile=/root/.ssh/id_ed25519 /root/rpmbuild/RPMS/  publish@www.fricouv.eu:~
   notify:
     image: drillster/drone-email
     secrets: [ email_username, email_password ]
