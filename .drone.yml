@@ -56,10 +56,10 @@ pipeline:
       - rpmbuild -ba notifier.spec
       - yum install --assumeyes openssh-clients
       - cat /root/.ssh/known_hosts
-      - ssh publish@www.fricouv.eu -e mkdir -p release/${DRONE_TAG}
+      - ssh publish@www.fricouv.eu "mkdir -p release/${DRONE_TAG}"
       - scp -vvvv -r /root/rpmbuild/RPMS/  publish@www.fricouv.eu:release/${DRONE_TAG}
     when:
-      events: [ tag ]
+      event: tag
   build-rpm-sha:
     image: centos:7
     volumes:
@@ -84,7 +84,7 @@ pipeline:
       - rpmbuild -ba notifier.spec
       - yum install --assumeyes openssh-clients
       - cat /root/.ssh/known_hosts
-      - ssh publish@www.fricouv.eu -e mkdir -p release/${DRONE_COMMIT_SHA}
+      - ssh publish@www.fricouv.eu "mkdir -p release/${DRONE_COMMIT_SHA}"
       - scp -vvvv -r /root/rpmbuild/RPMS/  publish@www.fricouv.eu:release/${DRONE_COMMIT_SHA}
     when:
       events: [ push, pull_request ]
