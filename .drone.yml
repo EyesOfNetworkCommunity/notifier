@@ -60,9 +60,7 @@ pipeline:
       - scp -vvvv -r /root/rpmbuild/RPMS/  publish@www.fricouv.eu:release/${DRONE_TAG}
     when:
       events: [ tag ]
-      status:
-        - success
-  build-release:
+  build-rpm-sha:
     image: centos:7
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
@@ -90,8 +88,6 @@ pipeline:
       - scp -vvvv -r /root/rpmbuild/RPMS/  publish@www.fricouv.eu:release/${DRONE_COMMIT_SHA}
     when:
       events: [ push, pull_request ]
-      status:
-        - success
   notify:
     image: drillster/drone-email
     secrets: [ email_username, email_password ]
