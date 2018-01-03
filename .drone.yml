@@ -32,7 +32,7 @@ pipeline:
       - $(pwd)/bin/notifier.pl -t host -c $(pwd)/etc/notifier.cfg -r $(pwd)/etc/notifier.rules -T "Mon Dec 18 08:35:12 CEST 1000" -h "localhost" -e "DOWN" -i "127.0.0.1" -n "email" -C "admin" -M "admin@example.org" -O "Host down" -A "LINUX" -G "admins" -X "08:35:28" -Y "10"
       - if [ $? -ne 0 ];then false;fi
       - if [ ! -n $(cat log/notifier_send.log) ]; then false; fi
-  build:
+  build-release:
     image: centos:7
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
@@ -56,7 +56,42 @@ pipeline:
       - rpmbuild -ba notifier.spec
       - yum install --assumeyes openssh-clients
       - cat /root/.ssh/known_hosts
-      - scp -vvvv -r /root/rpmbuild/RPMS/  publish@www.fricouv.eu:~
+      - ssh publish@www.fricouv.eu -e mkdir -p release/${DRONE_TAG}
+      - scp -vvvv -r /root/rpmbuild/RPMS/  publish@www.fricouv.eu:release/${DRONE_TAG}
+    when:
+      events: [ tag ]
+      status:
+        - success
+  build-release:
+    image: centos:7
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /etc/hosts:/etc/hosts:ro
+      - /root/drone-github/drone-data/publish-key.rsa:/root/.ssh/id_rsa:ro
+      - /root/.ssh/known-www.fricouv.eu:/root/.ssh/known_hosts
+    commands:
+      - yum install --assumeyes rpm-build mariadb mariadb-server
+      - mysql_install_db
+      - chown -R mysql:mysql /var/lib/mysql
+      - /usr/bin/mysqld_safe &
+      - mkdir -p /root/rpmbuild/{BUILD,BUILDROOT,RPMS,SOURCES,SPECS,SRPMS}
+      - cp -pr /srv/eyesofnetwork/notifier/ /root/rpmbuild/SOURCES/notifier-2.1.2
+      - cd /root/rpmbuild/SOURCES
+      - tar czf notifier-2.1.1.tar.gz notifier-2.1.2
+      - mv notifier-2.1.1 notifier
+      - cd /root/rpmbuild/SPECS
+      - cp /root/rpmbuild/SOURCES/notifier/docs/rpmbuild/notifier.spec .
+      - adduser nagios
+      - groupadd eyesofnetwork
+      - rpmbuild -ba notifier.spec
+      - yum install --assumeyes openssh-clients
+      - cat /root/.ssh/known_hosts
+      - ssh publish@www.fricouv.eu -e mkdir -p release/${DRONE_COMMIT_SHA}
+      - scp -vvvv -r /root/rpmbuild/RPMS/  publish@www.fricouv.eu:release/${DRONE_COMMIT_SHA}
+    when:
+      events: [ push, pull_request ]
+      status:
+        - success
   notify:
     image: drillster/drone-email
     secrets: [ email_username, email_password ]
