@@ -61,12 +61,11 @@ EyesOfNetwork advanced notifier can provide a fine configuration for nagios noti
 	install -m 664  var/www/index.html ${RPM_BUILD_ROOT}/srv/eyesofnetwork/%{name}-%{version}/var/www/index.html
 
 %post
-	sh /srv/eyesofnetwork/%{name}-%{version}/docs/db/create_database.sh
+	if [ ! /var/lib/mysql/notifier/sents_logs.MYI ];then sh /srv/eyesofnetwork/%{name}-%{version}/docs/db/create_database.sh;fi
 	cp -pr /srv/eyesofnetwork/%{name}/etc/* /srv/eyesofnetwork/%{name}-%{version}/etc
 	cp -pr /srv/eyesofnetwork/%{name}/log/* /srv/eyesofnetwork/%{name}-%{version}/log
 	cp -pr /srv/eyesofnetwork/%{name}/scripts/* /srv/eyesofnetwork/%{name}-%{version}/scripts
-	printf "\nIf you already have a notifier 2.*, is possible to have an error on database \"notifier\". Is normal because it already exist.\nBe carefull : If you've change mysql root password, is possible to have error on SQL database creation and table injection. \n If is the only error, modify /srv/eyesofnetwork/notifier/docs/db/create_database.sh and re-run it. \n"
-	printf "\n\nNormaly, the rpm copy files/folder in folders /srv/eyesofnetwork/notifier-2.0/[etc,scripts,log]. If is done, execute following commands :\n rm /srv/eyesofnetwork/notifier \n ln -s /srv/eyesofnetwork/notifier-2.0 /srv/eyesofnetwork/notifier\n\nThanks."
+	printf "\nBe carefull : If you've change mysql root password, is possible to have error on SQL database creation and table injection. \n If is the only error, modify /srv/eyesofnetwork/notifier/docs/db/create_database.sh and re-run it. \n"
 
 %postun
 	rm -rf /srv/eyesofnetwork/%{name}
@@ -81,6 +80,7 @@ EyesOfNetwork advanced notifier can provide a fine configuration for nagios noti
 /srv/eyesofnetwork/%{name}-%{version}/docs/
 /srv/eyesofnetwork/%{name}-%{version}/scripts/
 /srv/eyesofnetwork/%{name}-%{version}/var/
+%attr (664,nagios,eyesofnetwork) /srv/eyesofnetwork/%{name}-%{version}/etc/notifier.rules
 %attr (775,nagios,eyesofnetwork) /srv/eyesofnetwork/%{name}-%{version}/log/
 %attr (775,nagios,eyesofnetwork) /srv/eyesofnetwork/%{name}-%{version}/var/www/
 
