@@ -88,6 +88,48 @@ pipeline:
       - scp -pr /root/rpmbuild/RPMS/${DRONE_COMMIT_SHA}  publish@www.fricouv.eu:intermediate-build
     when:
       events: [ push, pull_request ]
+  test-rpm-sha:
+    image: centos:7
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /etc/hosts:/etc/hosts:ro
+    commands:
+      - chmod +x bin/notifier.pl
+      - yum install --assumeyes mariadb mariadb-server
+      - mysql_install_db
+      - chown -R mysql:mysql /var/lib/mysql
+      - /usr/bin/mysqld_safe &
+      - /usr/bin/mysqladmin -u root password 'root66'
+      - yum install --assumeyes perl
+      - yum install --assumeyes perl-XML-Simple
+      - yum install --assumeyes perl-DBI
+      - yum install --assumeyes perl-DBD-MySQL
+      - adduser nagios
+      - groupadd eyesofnetwork
+      - curl -L https://autre.fricouv.eu/git/EyesOfNetworkCommunity/notifier/intermediate-build/${DRONE_COMMIT_SHA}/x86_64/notifier-2.1.2-1.eon.x86_64.rpm
+    when:
+      events: [ push, pull_request ]
+    test-rpm-release:
+    image: centos:7
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /etc/hosts:/etc/hosts:ro
+    commands:
+      - chmod +x bin/notifier.pl
+      - yum install --assumeyes mariadb mariadb-server
+      - mysql_install_db
+      - chown -R mysql:mysql /var/lib/mysql
+      - /usr/bin/mysqld_safe &
+      - /usr/bin/mysqladmin -u root password 'root66'
+      - yum install --assumeyes perl
+      - yum install --assumeyes perl-XML-Simple
+      - yum install --assumeyes perl-DBI
+      - yum install --assumeyes perl-DBD-MySQL
+      - adduser nagios
+      - groupadd eyesofnetwork
+      - curl -L https://autre.fricouv.eu/git/EyesOfNetworkCommunity/notifier/intermediate-build/${DRONE_TAG}/x86_64/notifier-${DRONE_TAG}-1.eon.x86_64.rpm
+    when:
+      event: tag
   notify:
     image: drillster/drone-email
     secrets: [ email_username, email_password ]
