@@ -120,6 +120,7 @@ pipeline:
       - mysql_install_db
       - chown -R mysql:mysql /var/lib/mysql
       - /usr/bin/mysqld_safe &
+      - /usr/bin/sleep 10
       - /usr/bin/mysqladmin -u root password 'root66'
       - yum install --assumeyes perl
       - yum install --assumeyes perl-XML-Simple
