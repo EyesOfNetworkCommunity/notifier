@@ -107,7 +107,8 @@ pipeline:
       - yum install --assumeyes perl-DBD-MySQL
       - adduser nagios
       - groupadd eyesofnetwork
-      - curl -L https://autre.fricouv.eu/git/EyesOfNetworkCommunity/notifier/intermediate-build/${DRONE_COMMIT_SHA}/x86_64/notifier-2.1.2-1.eon.x86_64.rpm
+      - curl -O https://autre.fricouv.eu/git/EyesOfNetworkCommunity/notifier/intermediate-build/${DRONE_COMMIT_SHA}/x86_64/notifier-2.1.2-1.eon.x86_64.rpm
+      - rpm -i notifier-2.1.2-1.eon.x86_64.rpm
     when:
       events: [ push, pull_request ]
   test-rpm-release:
@@ -129,7 +130,8 @@ pipeline:
       - yum install --assumeyes perl-DBD-MySQL
       - adduser nagios
       - groupadd eyesofnetwork
-      - curl -L https://autre.fricouv.eu/git/EyesOfNetworkCommunity/notifier/intermediate-build/${DRONE_TAG}/x86_64/notifier-${DRONE_TAG}-1.eon.x86_64.rpm
+      - curl -O https://autre.fricouv.eu/git/EyesOfNetworkCommunity/notifier/intermediate-build/${DRONE_TAG}/x86_64/notifier-${DRONE_TAG}-1.eon.x86_64.rpm
+      - rpm -i notifier-${DRONE_TAG}-1.eon.x86_64.rpm
     when:
       event: tag
   notify:
