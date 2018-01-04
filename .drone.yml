@@ -111,6 +111,8 @@ pipeline:
       - groupadd eyesofnetwork
       - curl -O https://autre.fricouv.eu/git/EyesOfNetworkCommunity/notifier/intermediate-build/${DRONE_COMMIT_SHA}/x86_64/notifier-2.1.2-1.eon.x86_64.rpm
       - rpm -i notifier-2.1.2-1.eon.x86_64.rpm
+      - mysql -u root -proot66 -e "SELECT * FROM notifier.sents_logs LIMIT 1;"
+    when:
     when:
       events: [ push, pull_request ]
   test-rpm-release:
@@ -136,6 +138,7 @@ pipeline:
       - groupadd eyesofnetwork
       - curl -O https://autre.fricouv.eu/git/EyesOfNetworkCommunity/notifier/intermediate-build/${DRONE_TAG}/x86_64/notifier-${DRONE_TAG}-1.eon.x86_64.rpm
       - rpm -i notifier-${DRONE_TAG}-1.eon.x86_64.rpm
+      - mysql -u root -proot66 -e "SELECT * FROM notifier.sents_logs LIMIT 1;"
     when:
       event: tag
   notify:
