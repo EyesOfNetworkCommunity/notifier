@@ -105,6 +105,8 @@ pipeline:
       - yum install --assumeyes perl-XML-Simple
       - yum install --assumeyes perl-DBI
       - yum install --assumeyes perl-DBD-MySQL
+      - yum install --assumeyes git
+      - yum install --assumeyes logrotate
       - adduser nagios
       - groupadd eyesofnetwork
       - curl -O https://autre.fricouv.eu/git/EyesOfNetworkCommunity/notifier/intermediate-build/${DRONE_COMMIT_SHA}/x86_64/notifier-2.1.2-1.eon.x86_64.rpm
@@ -128,6 +130,8 @@ pipeline:
       - yum install --assumeyes perl-XML-Simple
       - yum install --assumeyes perl-DBI
       - yum install --assumeyes perl-DBD-MySQL
+      - yum install --assumeyes git
+      - yum install --assumeyes logrotate
       - adduser nagios
       - groupadd eyesofnetwork
       - curl -O https://autre.fricouv.eu/git/EyesOfNetworkCommunity/notifier/intermediate-build/${DRONE_TAG}/x86_64/notifier-${DRONE_TAG}-1.eon.x86_64.rpm
