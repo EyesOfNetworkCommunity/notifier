@@ -16,7 +16,7 @@ Requires: logrotate
 Requires: mariadb-server
 Requires: mariadb
 Requires: perl-DBI
-Requires: perl-DBI-MySQL
+Requires: perl-DBD-MySQL
 Requires: git
 
 
