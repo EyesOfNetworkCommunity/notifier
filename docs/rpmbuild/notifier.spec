@@ -61,7 +61,7 @@ EyesOfNetwork advanced notifier can provide a fine configuration for nagios noti
 	install -m 664  var/www/index.html ${RPM_BUILD_ROOT}/srv/eyesofnetwork/%{name}-%{version}/var/www/index.html
 
 %post
-	if [ ! /var/lib/mysql/notifier/sents_logs.MYI ];then sh /srv/eyesofnetwork/%{name}-%{version}/docs/db/create_database.sh;fi
+	sh /srv/eyesofnetwork/%{name}-%{version}/docs/db/create_database.sh
 	cp -pr /srv/eyesofnetwork/%{name}/etc/* /srv/eyesofnetwork/%{name}-%{version}/etc
 	cp -pr /srv/eyesofnetwork/%{name}/log/* /srv/eyesofnetwork/%{name}-%{version}/log
 	cp -pr /srv/eyesofnetwork/%{name}/scripts/* /srv/eyesofnetwork/%{name}-%{version}/scripts
