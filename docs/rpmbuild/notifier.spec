@@ -1,12 +1,14 @@
 Summary: EON Advanced Notifier
 Name:notifier
-Version:2.1.1
-Release:2.eon
+Version:2.1.2
+Release:1.eon
 Source:%{name}-%{version}.tar.gz
 Source1:%{name}
 BuildRoot:/root/rpmbuild
 Group:Applications/Base
 License:GPLv2
+URL: http://www.eyesofnetwork.com
+Packager: Vincent FRICOU <vincent@fricouv.eu>
 
 Requires: perl
 Requires: perl-XML-Simple
@@ -55,7 +57,7 @@ EyesOfNetwork advanced notifier can provide a fine configuration for nagios noti
 	install -m 664  docs/db/create_user.txt ${RPM_BUILD_ROOT}/srv/eyesofnetwork/%{name}-%{version}/docs/db/
 	install -m 775  scripts/createxml2sms.sh ${RPM_BUILD_ROOT}/srv/eyesofnetwork/%{name}-%{version}/scripts/createxml2sms.sh
 	install -m 775  scripts/updates/check_config_file.sh ${RPM_BUILD_ROOT}/srv/eyesofnetwork/%{name}-%{version}/scripts/updates/check_config_file.sh
-	install -m 775  scripts/updates/v2.1_to_v2.1-1.sh ${RPM_BUILD_ROOT}/srv/eyesofnetwork/%{name}-%{version}/scripts/updates/v2.1_to_v2.1-1.sh
+	install -m 775  scripts/updates/v2.1_to_v2.1-1.sh ${RPM_BUILD_ROOT}/srv/eyesofnetwork/%{name}-%{version}/scripts/updates/v2.1_to_v2.1.1.sh
 	install -m 664  var/www/index.html ${RPM_BUILD_ROOT}/srv/eyesofnetwork/%{name}-%{version}/var/www/index.html
 
 %post
@@ -83,25 +85,10 @@ EyesOfNetwork advanced notifier can provide a fine configuration for nagios noti
 %attr (775,nagios,eyesofnetwork) /srv/eyesofnetwork/%{name}-%{version}/var/www/
 
 %changelog
-* Mon Mar 30 2014 Vincent Fricou <vincent@fricouv.eu> - 2.0-1
-- Newer version with MySQL logging integration
-
-* Mon Jan 20 2014 Vincent Fricou <vincent@fricouv.eu> - 1.4-6
-- Bug correction on rules debug.
-
-* Wed Aug 14 2013 Vincent Fricou <vincent@fricouv.eu> - 1.4-5
-- Bug correction on notifications sent logging.
-- Bug correction on sms notifications.
-
-* Wed Jul 17 2013 Vincent Fricou <vincent@fricouv.eu> - 1.4-4
-- Full debug by rules implementation.
-
-* Mon Jul 15 2013 Vincent Fricou <vincent@fricouv.eu> - 1.4-3
-- Sms notification implementation.
-- Adding xml2sms converter.
-
-* Wed Jun 26 2013 Vincent Fricou <vincent@fricouv.eu> - 1.4-2
-- Logrotate Integration.
-
-* Wed Jun 26 2013 Vincent Fricou <vincent@fricouv.eu> - 1.4-1
-- Initial release.
+* Thu Nov 2 2017 Vincent Fricou <vincent@fricouv.eu> - 2.1.1
+(Refer to Git release : https://github.com/EyesOfNetworkCommunity/notifier/releases/tag/2.1-1)
+- Now username was checked instead of email into notification rules
+- Updated documentation
+- Added script to update from previous version (2.1)
+- Added script to check notifier.rules fields configuration
+- Added log line to print contact name

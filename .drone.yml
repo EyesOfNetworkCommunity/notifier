@@ -45,10 +45,10 @@ pipeline:
       - chown -R mysql:mysql /var/lib/mysql
       - /usr/bin/mysqld_safe &
       - mkdir -p /root/rpmbuild/{BUILD,BUILDROOT,RPMS,SOURCES,SPECS,SRPMS}
-      - cp -pr /srv/eyesofnetwork/notifier/ /root/rpmbuild/SOURCES/notifier-2.1.1
+      - cp -pr /srv/eyesofnetwork/notifier/ /root/rpmbuild/SOURCES/notifier-2.1.2
       - cd /root/rpmbuild/SOURCES
-      - tar czf notifier-2.1.1.tar.gz notifier-2.1.1
-      - mv notifier-2.1.1 notifier
+      - tar czf notifier-2.1.2.tar.gz notifier-2.1.2
+      - mv notifier-2.1.2 notifier
       - cd /root/rpmbuild/SPECS
       - cp /root/rpmbuild/SOURCES/notifier/docs/rpmbuild/notifier.spec .
       - adduser nagios
@@ -73,10 +73,10 @@ pipeline:
       - chown -R mysql:mysql /var/lib/mysql
       - /usr/bin/mysqld_safe &
       - mkdir -p /root/rpmbuild/{BUILD,BUILDROOT,RPMS,SOURCES,SPECS,SRPMS}
-      - cp -pr /srv/eyesofnetwork/notifier/ /root/rpmbuild/SOURCES/notifier-2.1.1
+      - cp -pr /srv/eyesofnetwork/notifier/ /root/rpmbuild/SOURCES/notifier-2.1.2
       - cd /root/rpmbuild/SOURCES
-      - tar czf notifier-2.1.1.tar.gz notifier-2.1.1
-      - mv notifier-2.1.1 notifier
+      - tar czf notifier-2.1.2.tar.gz notifier-2.1.2
+      - mv notifier-2.1.2 notifier
       - cd /root/rpmbuild/SPECS
       - cp /root/rpmbuild/SOURCES/notifier/docs/rpmbuild/notifier.spec .
       - adduser nagios
