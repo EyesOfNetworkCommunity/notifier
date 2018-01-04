@@ -112,7 +112,7 @@ pipeline:
       - curl -O https://autre.fricouv.eu/git/EyesOfNetworkCommunity/notifier/intermediate-build/${DRONE_COMMIT_SHA}/x86_64/notifier-2.1.2-1.eon.x86_64.rpm
       - rpm -i notifier-2.1.2-1.eon.x86_64.rpm
       - ln -s /srv/eyesofnetwork/notifier-2.1.2 /srv/eyesofnetwork/notifier
-      - /srv/eyesofnetwork/notifier/notifier.pl -t service -c /srv/eyesofnetwork/notifier/etc/notifier.cfg -r /srv/eyesofnetwork/notifier/etc/notifier.rules -T "2017-07-27-10:05:00" -h localhost -A LINUX -B GENERIC-SERVICES -s memory -e CRITICAL -i 127.0.0.1 -n email -C "admin@localhost" -O "Test memory critical" -X "2017-07-27-10:05:00" -Y 1
+      - /srv/eyesofnetwork/notifier/bin/notifier.pl -t service -c /srv/eyesofnetwork/notifier/etc/notifier.cfg -r /srv/eyesofnetwork/notifier/etc/notifier.rules -T "2017-07-27-10:05:00" -h localhost -A LINUX -B GENERIC-SERVICES -s memory -e CRITICAL -i 127.0.0.1 -n email -C "admin@localhost" -O "Test memory critical" -X "2017-07-27-10:05:00" -Y 1
       - mysql -u root -proot66 -e "SELECT * FROM notifier.sents_logs LIMIT 1;"
     when:
     when:
@@ -141,7 +141,7 @@ pipeline:
       - curl -O https://autre.fricouv.eu/git/EyesOfNetworkCommunity/notifier/intermediate-build/${DRONE_TAG}/x86_64/notifier-${DRONE_TAG}-1.eon.x86_64.rpm
       - rpm -i notifier-${DRONE_TAG}-1.eon.x86_64.rpm
       - ln -s /srv/eyesofnetwork/notifier-${DRONE_TAG} /srv/eyesofnetwork/notifier
-      - /srv/eyesofnetwork/notifier/notifier.pl -t service -c /srv/eyesofnetwork/notifier/etc/notifier.cfg -r /srv/eyesofnetwork/notifier/etc/notifier.rules -T "2017-07-27-10:05:00" -h localhost -A LINUX -B GENERIC-SERVICES -s memory -e CRITICAL -i 127.0.0.1 -n email -C "admin@localhost" -O "Test memory critical" -X "2017-07-27-10:05:00" -Y 1
+      - /srv/eyesofnetwork/notifier/bin/notifier.pl -t service -c /srv/eyesofnetwork/notifier/etc/notifier.cfg -r /srv/eyesofnetwork/notifier/etc/notifier.rules -T "2017-07-27-10:05:00" -h localhost -A LINUX -B GENERIC-SERVICES -s memory -e CRITICAL -i 127.0.0.1 -n email -C "admin@localhost" -O "Test memory critical" -X "2017-07-27-10:05:00" -Y 1
       - mysql -u root -proot66 -e "SELECT * FROM notifier.sents_logs LIMIT 1;"
     when:
       event: tag
