@@ -109,7 +109,7 @@ pipeline:
       - curl -L https://autre.fricouv.eu/git/EyesOfNetworkCommunity/notifier/intermediate-build/${DRONE_COMMIT_SHA}/x86_64/notifier-2.1.2-1.eon.x86_64.rpm
     when:
       events: [ push, pull_request ]
-    test-rpm-release:
+  test-rpm-release:
     image: centos:7
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
