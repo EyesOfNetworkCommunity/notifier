@@ -83,7 +83,6 @@ pipeline:
       - groupadd eyesofnetwork
       - rpmbuild -ba notifier.spec
       - yum install --assumeyes openssh-clients
-      - ssh publish@www.fricouv.eu "mkdir -p release"
       - scp -r /root/rpmbuild/RPMS/  publish@www.fricouv.eu:release/${DRONE_COMMIT_SHA}
     when:
       events: [ push, pull_request ]
