@@ -153,7 +153,7 @@ pipeline:
     from: no-reply@fricouv.eu
     host: mail.fricouv.local
     recipient:
-      - vincent@fricouv.eu
+      - vincent+droneghbuilds@fricouv.eu
     skip_verify: true
     when:
       status:
