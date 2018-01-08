@@ -32,7 +32,119 @@ pipeline:
       - $(pwd)/bin/notifier.pl -t host -c $(pwd)/etc/notifier.cfg -r $(pwd)/etc/notifier.rules -T "Mon Dec 18 08:35:12 CEST 1000" -h "localhost" -e "DOWN" -i "127.0.0.1" -n "email" -C "admin" -M "admin@example.org" -O "Host down" -A "LINUX" -G "admins" -X "08:35:28" -Y "10"
       - if [ $? -ne 0 ];then false;fi
       - if [ ! -n $(cat log/notifier_send.log) ]; then false; fi
-
+  build-release:
+    image: centos:7
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /etc/hosts:/etc/hosts:ro
+      - /root/drone-github/drone-data/publish-key.rsa:/root/.ssh/id_rsa:ro
+      - /root/.ssh/known-www.fricouv.eu:/root/.ssh/known_hosts
+    commands:
+      - yum install --assumeyes rpm-build mariadb mariadb-server
+      - mysql_install_db
+      - chown -R mysql:mysql /var/lib/mysql
+      - /usr/bin/mysqld_safe &
+      - mkdir -p /root/rpmbuild/{BUILD,BUILDROOT,RPMS,SOURCES,SPECS,SRPMS}
+      - cp -pr /srv/eyesofnetwork/notifier/ /root/rpmbuild/SOURCES/notifier-2.1.2
+      - cd /root/rpmbuild/SOURCES
+      - tar czf notifier-2.1.2.tar.gz notifier-2.1.2
+      - mv notifier-2.1.2 notifier
+      - cd /root/rpmbuild/SPECS
+      - cp /root/rpmbuild/SOURCES/notifier/docs/rpmbuild/notifier.spec .
+      - adduser nagios
+      - groupadd eyesofnetwork
+      - rpmbuild -ba notifier.spec
+      - yum install --assumeyes openssh-clients
+      - cat /root/.ssh/known_hosts
+      - ssh publish@www.fricouv.eu "mkdir -p release/${DRONE_TAG}"
+      - scp -vvvv -r /root/rpmbuild/RPMS/  publish@www.fricouv.eu:release/${DRONE_TAG}
+    when:
+      event: tag
+  build-rpm-sha:
+    image: centos:7
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /etc/hosts:/etc/hosts:ro
+      - /root/drone-github/drone-data/publish-key.ed25519:/root/.ssh/id_ed25519:ro
+      - /root/.ssh/known-www.fricouv.eu:/root/.ssh/known_hosts
+    commands:
+      - yum install --assumeyes rpm-build mariadb mariadb-server
+      - mysql_install_db
+      - chown -R mysql:mysql /var/lib/mysql
+      - /usr/bin/mysqld_safe &
+      - mkdir -p /root/rpmbuild/{BUILD,BUILDROOT,RPMS,SOURCES,SPECS,SRPMS}
+      - cp -pr /srv/eyesofnetwork/notifier/ /root/rpmbuild/SOURCES/notifier-2.1.2
+      - cd /root/rpmbuild/SOURCES
+      - tar czf notifier-2.1.2.tar.gz notifier-2.1.2
+      - mv notifier-2.1.2 notifier
+      - cd /root/rpmbuild/SPECS
+      - cp /root/rpmbuild/SOURCES/notifier/docs/rpmbuild/notifier.spec .
+      - adduser nagios
+      - groupadd eyesofnetwork
+      - rpmbuild -ba notifier.spec
+      - yum install --assumeyes openssh-clients
+      - mkdir /root/rpmbuild/RPMS/${DRONE_COMMIT_SHA}
+      - mv /root/rpmbuild/RPMS/x86_64 /root/rpmbuild/RPMS/${DRONE_COMMIT_SHA}
+      - scp -pr /root/rpmbuild/RPMS/${DRONE_COMMIT_SHA}  publish@www.fricouv.eu:intermediate-build
+    when:
+      events: [ push, pull_request ]
+  test-rpm-sha:
+    image: centos:7
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /etc/hosts:/etc/hosts:ro
+    commands:
+      - chmod +x bin/notifier.pl
+      - yum install --assumeyes mariadb mariadb-server
+      - mysql_install_db
+      - chown -R mysql:mysql /var/lib/mysql
+      - /usr/bin/mysqld_safe &
+      - /usr/bin/sleep 10
+      - /usr/bin/mysqladmin -u root password 'root66'
+      - yum install --assumeyes perl
+      - yum install --assumeyes perl-XML-Simple
+      - yum install --assumeyes perl-DBI
+      - yum install --assumeyes perl-DBD-MySQL
+      - yum install --assumeyes git
+      - yum install --assumeyes logrotate
+      - adduser nagios
+      - groupadd eyesofnetwork
+      - curl -O https://autre.fricouv.eu/git/EyesOfNetworkCommunity/notifier/intermediate-build/${DRONE_COMMIT_SHA}/x86_64/notifier-2.1.2-1.eon.x86_64.rpm
+      - rpm -i notifier-2.1.2-1.eon.x86_64.rpm
+      - ln -s /srv/eyesofnetwork/notifier-2.1.2 /srv/eyesofnetwork/notifier
+      - /srv/eyesofnetwork/notifier/bin/notifier.pl -t service -c /srv/eyesofnetwork/notifier/etc/notifier.cfg -r /srv/eyesofnetwork/notifier/etc/notifier.rules -T "2017-07-27-10:05:00" -h localhost -A LINUX -B GENERIC-SERVICES -s memory -e CRITICAL -i 127.0.0.1 -n email -C "admin@localhost" -O "Test memory critical" -X "2017-07-27-10:05:00" -Y 1
+      - mysql -u root -proot66 -e "SELECT * FROM notifier.sents_logs LIMIT 1;"
+    when:
+    when:
+      events: [ push, pull_request ]
+  test-rpm-release:
+    image: centos:7
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /etc/hosts:/etc/hosts:ro
+    commands:
+      - chmod +x bin/notifier.pl
+      - yum install --assumeyes mariadb mariadb-server
+      - mysql_install_db
+      - chown -R mysql:mysql /var/lib/mysql
+      - /usr/bin/mysqld_safe &
+      - /usr/bin/sleep 10
+      - /usr/bin/mysqladmin -u root password 'root66'
+      - yum install --assumeyes perl
+      - yum install --assumeyes perl-XML-Simple
+      - yum install --assumeyes perl-DBI
+      - yum install --assumeyes perl-DBD-MySQL
+      - yum install --assumeyes git
+      - yum install --assumeyes logrotate
+      - adduser nagios
+      - groupadd eyesofnetwork
+      - curl -O https://autre.fricouv.eu/git/EyesOfNetworkCommunity/notifier/intermediate-build/${DRONE_TAG}/x86_64/notifier-${DRONE_TAG}-1.eon.x86_64.rpm
+      - rpm -i notifier-${DRONE_TAG}-1.eon.x86_64.rpm
+      - ln -s /srv/eyesofnetwork/notifier-${DRONE_TAG} /srv/eyesofnetwork/notifier
+      - /srv/eyesofnetwork/notifier/bin/notifier.pl -t service -c /srv/eyesofnetwork/notifier/etc/notifier.cfg -r /srv/eyesofnetwork/notifier/etc/notifier.rules -T "2017-07-27-10:05:00" -h localhost -A LINUX -B GENERIC-SERVICES -s memory -e CRITICAL -i 127.0.0.1 -n email -C "admin@localhost" -O "Test memory critical" -X "2017-07-27-10:05:00" -Y 1
+      - mysql -u root -proot66 -e "SELECT * FROM notifier.sents_logs LIMIT 1;"
+    when:
+      event: tag
   notify:
     image: drillster/drone-email
     secrets: [ email_username, email_password ]
@@ -41,10 +153,9 @@ pipeline:
     from: no-reply@fricouv.eu
     host: mail.fricouv.local
     recipient:
-      - vincent@fricouv.eu
+      - vincent+droneghbuilds@fricouv.eu
     skip_verify: true
     when:
       status:
         - success
         - failure
-
