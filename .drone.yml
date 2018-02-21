@@ -38,8 +38,7 @@ pipeline:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /etc/hosts:/etc/hosts:ro
-      - ${PWD}/drone-data/publish-key.ed25519:/root/.ssh/id_ed25519:ro
-      - ${PWD}/drone-data/known_hosts:/root/.ssh/known_hosts:ro
+      - /srv/docker-data/drone-github/drone-data/publish-key.ed25519:/root/.ssh/id_ed25519:ro
     commands:
       - yum install --assumeyes rpm-build mariadb mariadb-server
       - mysql_install_db
@@ -67,8 +66,7 @@ pipeline:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /etc/hosts:/etc/hosts:ro
-      - ${PWD}/drone-data/publish-key.ed25519:/root/.ssh/id_ed25519:ro
-      - ${PWD}/drone-data/known_hosts:/root/.ssh/known_hosts:ro
+      - /srv/docker-data/drone-github/drone-data/publish-key.ed25519:/root/.ssh/id_ed25519:ro
     commands:
     commands:
       - yum install --assumeyes rpm-build mariadb mariadb-server
