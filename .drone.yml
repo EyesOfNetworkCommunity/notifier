@@ -58,7 +58,7 @@ pipeline:
       - yum install --assumeyes openssh-clients
       - cat /root/.ssh/known_hosts
       - ssh publish@www.fricouv.eu "mkdir -p release/${DRONE_TAG}"
-      - scp -vvvv -r /root/rpmbuild/RPMS/  publish@www.fricouv.eu:release/${DRONE_TAG}
+      - scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -r /root/rpmbuild/RPMS/  publish@www.fricouv.eu:release/${DRONE_TAG}
     when:
       event: tag
 
@@ -88,7 +88,7 @@ pipeline:
       - yum install --assumeyes openssh-clients
       - mkdir /root/rpmbuild/RPMS/${DRONE_COMMIT_SHA}
       - mv /root/rpmbuild/RPMS/x86_64 /root/rpmbuild/RPMS/${DRONE_COMMIT_SHA}
-      - scp -pr /root/rpmbuild/RPMS/${DRONE_COMMIT_SHA}  publish@www.fricouv.eu:intermediate-build
+      - scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -pr /root/rpmbuild/RPMS/${DRONE_COMMIT_SHA}  publish@www.fricouv.eu:intermediate-build
     when:
       events: [ push, pull_request ]
 
