@@ -26,7 +26,7 @@ use File::Basename;
 use XML::Simple;
 use DBI;
 use Data::Dumper;
-setlocale(LC_CTYPE, "en_EN");
+setlocale(LC_CTYPE, "en_US");
 $XML::Simple::PREFERRED_PARSER = XML::Parser;
 
 my $notifier_dur_start = time;
@@ -209,8 +209,7 @@ foreach( split( /\n/, $$rules{$data_type} ) )
 	( $rudebug, $contacts, $hosts, $services, $states, $days, $timeperiods, $numbers, $methods, $tracking ) = split /[\s]*:[\s]*/;
 	print LOGRULES "********************************************\n" if ($rudebug == 1);
 	print LOGRULES "date = $nagios_longtimedate\n" if ($rudebug == 1);
-	print LOGRULES "Reading $rules_file data_type: $$rules{$data_type}\n" if ($rudebug == 1);
-
+	
 	if( $data_type eq "host" && $services ne "-" || $data_type eq "service" && $services eq "-" )
 	{
 		next;
