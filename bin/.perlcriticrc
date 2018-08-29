@@ -1,0 +1,32 @@
+severity  = 3
+only      = 1
+force     = 0
+verbose   = 4
+top       = 50
+theme     = (pbp || security) && bugs
+include   = NamingConventions ClassHierarchies
+exclude   = Variables  Modules::RequirePackage
+criticism-fatal = 1
+color     = 1
+allow-unsafe = 1
+#pager     = less
+
+[TestingAndDebugging::RequireUseStrict]
+severity = 5
+ 
+[TestingAndDebugging::RequireUseWarnings]
+severity = 5
+ 
+[Variables::ProhibitPackageVars]
+severity = 2
+ 
+[ControlStructures::ProhibitPostfixControls]
+allow = if unless
+
+[InputOutput::RequireCheckedSyscalls]
+functions = :builtins
+exclude_functions = print
+
+# I do not agree with these at all, so never load them
+[-NamingConventions::Capitalization]
+[-ValuesAndExpressions::ProhibitMagicNumbers]

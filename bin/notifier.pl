@@ -19,6 +19,9 @@
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
 
+use strict;
+use warnings;
+
 use POSIX qw(locale_h);
 use POSIX qw(strftime);
 use Getopt::Std;
@@ -27,21 +30,14 @@ use XML::Simple;
 use DBI;
 use Data::Dumper;
 
-$XML::Simple::PREFERRED_PARSER = XML::Parser;
+$XML::Simple::PREFERRED_PARSER = 'XML::Parser';
 
 setlocale(LC_CTYPE, 'en_US');
 
 my $notifier_dur_start = time;
 
-my $data_type;
-my $config_file = '/srv/eyesofnetwork/notifier/etc/notifier.cfg';
-my $config;
-my $rules;
-my $debug;
-my $debug_rules;
 my $log_file;
 my %commands;
-my ( $rudebug, $contacts, $hosts, $services, $states, $timeperiods, $numbers, $methods, $tracking );
 my $found;
 my $wildcard;
 my $state;
@@ -49,7 +45,6 @@ my %methods_hash;
 my $priority = 100;
 
 ## SQL part
-my $dbh;
 my $query;
 my $sqluser = 'notifierSQL';
 my $sqlpassword = 'Notifier66';
@@ -58,68 +53,49 @@ my $cmd_dur_start;
 my $cmd_duration;
 my $mrules;
 my $calledmethods;
-my $prev_methods;
 my @results;
 my ($cmd,$etat);
 my $adapt_methods;
-## common part
-my $host_source;
-my $host_state;
-my $host_address;
-my $notification_type;
-my $contact_name;
-my $contact_mail;
-my $nagios_longtimedate;
-
-## host part
-my $host_output;
-
-## service part
-my $service_desc;
-my $service_state;
-my $service_output;
+my $array_methods;
 
 # database connection
-$dbh = DBI->connect('DBI:mysql:notifier:127.0.0.1', $sqluser, $sqlpassword);
-
-%options=();
-getopts( 't:c:r:h:s:e:T:i:n:C:O:G:N:A:B:X:Y:M:', \%options);
-$nagios_longtimedate=$options{T};
-$data_type=$options{t};
-$config_file=$options{c};
-$rules_file=$options{r};
+my $dbh = DBI->connect('DBI:mysql:notifier:127.0.0.1', $sqluser, $sqlpassword);
 
 ## ARGS
-$host_source=$options{h};
-$host_state=$options{e};
-$host_address=$options{i};
-$notification_type=$options{n};
-$host_output=$options{O};
+my %options=();
+getopts( 't:c:r:h:s:e:T:i:n:C:O:G:N:A:B:X:Y:M:', \%options);
+my $nagios_longtimedate=$options{T};
+my $data_type=$options{t};
+my $config_file=$options{c};
+my $rules_file=$options{r};
 
-$contact_name=$options{C};
-$contact_mail=$options{M};
-$service_state=$options{e};
-$service_output=$options{O};
-$service_desc=$options{s};
+my $host_source=$options{h};
+my $host_state=$options{e};
+my $host_address=$options{i};
+my $notification_type=$options{n};
+my $host_output=$options{O};
 
-$group_host=$options{A};
-$group_service=$options{B};
-$group_contact=$options{G};
-$contact_pager=$options{N};
-$nagios_time=$options{X};
-$nagios_notification_number=$options{Y};
+my $contact_name=$options{C};
+my $contact_mail=$options{M};
+my $service_state=$options{e};
+my $service_output=$options{O};
+my $service_desc=$options{s};
 
-if( $config_file eq '' )
+my $group_host=$options{A};
+my $group_service=$options{B};
+my $group_contact=$options{G};
+my $contact_pager=$options{N};
+my $nagios_time=$options{X};
+my $nagios_notification_number=$options{Y};
+
+if (! length($config_file))
 {
 	$config_file='/srv/eyesofnetwork/notifier/etc/notifier.cfg';
 }
-
-
-if( $rules_file eq '' )
+if (! length($rules_file))
 {
 	$rules_file='/srv/eyesofnetwork/notifier/etc/notifier.rules';
 }
-
 
 if( $data_type ne 'host' && $data_type ne 'service' )
 {
@@ -134,72 +110,81 @@ close $fh or die "failed to close config file: $rules_file!";;		#### just for te
 
 $notification_type = $data_type;
 
-$config = XMLin($config_file);
-$rules = XMLin($rules_file);
-$debug = $$config{'debug'};
-$debug_rules = $$rules{'debug_rules'};
+my $config = XMLin($config_file);
+my $rules = XMLin($rules_file);
+my $debug = $config->{'debug'};
+my $debug_rules = $rules->{'debug_rules'};
 $debug += 0;
 $debug_rules += 0;
-$log_file = $$config{'log_file'};
-$logrules_file = $$rules{'logrules_file'};
-$notifsent_file = $$rules{'notifsent_file'};
+$log_file = $config->{'log_file'};
+my $logrules_file = $rules->{'logrules_file'};
+my $notifsent_file = $rules->{'notifsent_file'};
 chomp $log_file;
 chomp $logrules_file;
 
 open my $fh_log, '>>', $log_file or die "failed to open log file!" if $debug;
 open my $fh_notif, '>>', $notifsent_file or die "failed to open sent notification file!" if ($debug_rules > 0);
 
-log_notifier("********************************************
-	* Begin context:
-      - cmdline args: $0 @ARGV
-      - debug_rules : $debug_rules
-    * Parameters:
-      - long date = $nagios_longtimedate
-      - data type = $data_type
-      - config file = $config_file
-      - rules file = $rules_file
-      - host_source = $host_source
-      - host_state = $host_state
-      - host_address = $host_address
-      - notification_type = $notification_typen
-      - host_output = $host_output
-      - service_state = $service_state
-      - service_desc = $service_desc
-      - contact_name = $contact_name
-      - contact_mail = $contact_mail
-      - service_output = $service_output
-      - group_host = $group_host
-      - group_service = $group_service
-      - group_contact = $group_contact
-      - contact_pager = $contact_pager
-      - nagios_time = $nagios_time
-      - nagios_notification_number = $nagios_notification_number
-    ********************************************");
-foreach( split( /\n/, $$config{'commands'}{$data_type} ) )
+{
+	# We don't care of uninitialized values here
+	no warnings 'uninitialized';
+	log_notifier("********************************************
+* Begin context:
+  - cmdline args: $0 @ARGV
+  - debug_rules : $debug_rules
+  * Parameters:
+    - long date = $nagios_longtimedate
+    - data type = $data_type
+    - config file = $config_file
+    - rules file = $rules_file
+    - host_source = $host_source
+    - host_state = $host_state
+    - host_address = $host_address
+    - notification_type = $notification_type
+    - host_output = $host_output
+    - service_state = $service_state
+    - service_desc = $service_desc
+    - contact_name = $contact_name
+    - contact_mail = $contact_mail
+    - service_output = $service_output
+    - group_host = $group_host
+    - group_service = $group_service
+    - group_contact = $group_contact
+    - contact_pager = $contact_pager
+    - nagios_time = $nagios_time
+    - nagios_notification_number = $nagios_notification_number
+********************************************");
+}
+log_notifier("  * Processing commands:");
+foreach( split( /\n/, $config->{'commands'}->{$data_type} ) )
 {
 	s/^[\s]*//;
 	s/[\s]*$//;
 	next if /^$/;
 
 	chomp;
-	/^(.+?)[\s]*=[\s]*(.*)$/;
-	$commands{$1} = $2;
-	log_notifier("Found command: $1 with content: $commands{$1}");
+	if (/^(.+?)[\s]*=[\s]*(.*)$/)
+	{
+		$commands{$1} = $2;
+		log_notifier("command [$1]-> $commands{$1}");
+	}
 }
+
 log_notifier("********************************************
-	* Processing rules for data-type: $$rules{$data_type}
+	* Processing rules for data-type: $rules->{$data_type}
 	***");
 
-foreach( split( /\n/, $$rules{$data_type} ) )
+my $today=lc(strftime '%a', gmtime);
+foreach( split /\n/, $rules->{$data_type} )
 {
 	s/^[\s]*//;
 	s/[\s]*$//;
 	next if /^$/;
 
 	chomp;
-	( $rudebug, $contacts, $hosts, $services, $states, $days, $timeperiods, $numbers, $methods, $tracking ) = split /[\s]*:[\s]*/;
-	
-	if( $data_type eq "host" && $services ne "-" || $data_type eq "service" && $services eq "-" )
+	my ( $rudebug, $contacts, $hosts, $services, $states, $days, $timeperiods, $numbers, $methods, $tracking ) = split /[\s]*:[\s]*/;
+
+	if( ($data_type eq 'host' || $data_type eq 'service') && $services eq '-' )
 	{
 		next;
 	}
@@ -209,22 +194,22 @@ foreach( split( /\n/, $$rules{$data_type} ) )
 
 	foreach( split( /,/, $group_contact), $contact_name )
         {
-		$found = in_array( $_, split( /[\s]*,[\s]*/, $contacts ) );
+		$found = in_array( $_, split /[\s]*,[\s]*/, $contacts );
 		last if $found;
         }
 	if( ! $found )
 	{
-		log_rule( $rudebug, "can't find contact  $contact_name(groups=$group_contact) in $contacts -> skip this rule" );
+		log_rule( $rudebug, "can't find contact  $contact_name(groups=$group_contact) in $contacts -> skip this rule\n" );
 		next;
 	}
 	log_rule( $rudebug, "found contact ` $contact_name(groups=$group_contact) ' in ` $contacts '" );
 	$wildcard += $found-1;
 
-	$today=lc(strftime "%a", gmtime);
-	$found = in_array( $today, split( /[\s]*,[\s]*/, lc($days)) );
+	
+	$found = in_array( $today, split /[\s]*,[\s]*/, lc($days) );
 	if( ! $found )
 	{
-		log_rule( $rudebug, "can't find today $today in  $days -> skip this rule" );
+		log_rule( $rudebug, "can't find today $today in  $days -> skip this rule\n" );
 		next;
 	}
 	log_rule( $rudebug, "found today $today in $days" );
@@ -234,76 +219,76 @@ foreach( split( /\n/, $$rules{$data_type} ) )
 
 	foreach( split( /,/, $group_host ), $host_source )
 	{
-		$found = in_array( $_, split( /[\s]*,[\s]*/, $hosts ) );
+		$found = in_array( $_, split /[\s]*,[\s]*/, $hosts );
 		last if $found;
 	}
 	if( ! $found )
 	{
-		log_rule( $rudebug, "can't find host $host_source(groups=$group_host) in  $hosts -> skip this rule" );
+		log_rule( $rudebug, "can't find host $host_source(groups=$group_host) in  $hosts -> skip this rule\n" );
 		next;
 	}
 	log_rule( $rudebug, "found host $host_source in $hosts" );
 	$wildcard += $found-1;
 
-	if( $data_type eq "service" )
+	if( $data_type eq 'service' )
 	{
 		foreach( split( /,/, $group_service ), $service_desc )
 		{
-			$found = in_array( $_, split( /[\s]*,[\s]*/, $services ) );
+			$found = in_array( $_, split /[\s]*,[\s]*/, $services );
 			last if $found;
 		}
 		if( ! $found )
 		{
-			log_rule( $rudebug, "can't find service $service_desc(groups=$group_service) in $services -> skip this rule" );
+			log_rule( $rudebug, "can't find service $service_desc(groups=$group_service) in $services -> skip this rule\n" );
 			next;
 		}
 		log_rule( $rudebug, "found service $service_desc in $services" );
 		$wildcard += $found-1;
 	}
 
-	$state = $data_type eq "host" ? $host_state : $service_state;
-	$found = in_array( $state, split( /[\s]*,[\s]*/, $states ) );
+	$state = $data_type eq 'host' ? $host_state : $service_state;
+	$found = in_array( $state, split /[\s]*,[\s]*/, $states );
 	if( ! $found )
 	{
-		log_rule( $rudebug, "can't find state ` $state ' in ` $states ' -> skip this rule" );
+		log_rule( $rudebug, "can't find state ` $state ' in ` $states ' -> skip this rule\n" );
 		next;
 	}
 	log_rule( $rudebug, "found state ` $state ' in ` $states '" );
 	$wildcard += $found-1;
 
-	$found = in_timeperiod( $nagios_time, split( /[\s]*,[\s]*/, $timeperiods ) );
+	$found = in_timeperiod( $nagios_time, split /[\s]*,[\s]*/, $timeperiods );
 	if( ! $found )
 	{
-		log_rule( $rudebug, "can't find time $nagios_time in $timeperiods -> skip this rule" );
+		log_rule( $rudebug, "can't find time $nagios_time in $timeperiods -> skip this rule\n" );
 		next;
 	}
 	log_rule( $rudebug, "found time $nagios_time in $timeperiods" );
 	$wildcard += $found-1;
 
-	$found = in_number( $nagios_notification_number , split( /[\s]*,[\s]*/, $numbers ) );
+	$found = in_number( $nagios_notification_number , split /[\s]*,[\s]*/, $numbers );
 	if( ! $found )
 	{
-		log_rule( $rudebug, "can't find notification number $nagios_notification_number in $numbers ....skip this rule" );
+		log_rule( $rudebug, "can't find notification number $nagios_notification_number in $numbers ....skip this rule\n" );
 		next;
 	}
 	log_rule( $rudebug, "found notification number $nagios_notification_number in $numbers" );
 	$wildcard += $found-1;
 
-	if ( $tracking != 0 )
+	if ( defined $tracking && $tracking eq '1' )
 	{
+		my $query_analysis = "SELECT state,method FROM notifier.sents_logs WHERE contact='".$contact_name."' AND host='".$host_source;
 		if ( ! $service_desc )
 		{
-			$query_analysis = "SELECT state,method FROM notifier.sents_logs WHERE contact='".$contact_name."' AND host='".$host_source."' order by id desc limit 1;";
+			$query_analysis = $query_analysis . "' order by id desc limit 1;";
 		} else {
-			$query_analysis = "SELECT state,method FROM notifier.sents_logs WHERE contact='".$contact_name."' AND host='".$host_source."' AND service='".$service_desc."' order by id desc limit 1;";
+			$query_analysis = $query_analysis . "' AND service='".$service_desc."' order by id desc limit 1;";
 		}
 		@results = $dbh->selectrow_array($query_analysis);
-		$prev_state = $results[0];
-		$prev_methods = $results[1];
-		my @prev_methods = split(',',$prev_methods);
+		my $prev_state = $results[0];
+		my @prev_methods = split ',', $results[1];
 		if ( $state ne $prev_state )
 		{
-			my $array_methods;
+			$array_methods = '';
 			foreach my $uniq_methods (@prev_methods)
 			{
 				($cmd,$etat) = $uniq_methods =~ /([a-z\-]+)(.*)$/;
@@ -320,11 +305,11 @@ foreach( split( /\n/, $$rules{$data_type} ) )
 
 	if( $wildcard > $priority )
 	{
-		log_rule( $rudebug, "current priority = $priority; new priority(wildcard matching) = $wildcard -> ignore this rule" );
+		log_rule( $rudebug, "current priority = $priority; new priority(wildcard matching) = $wildcard -> ignore this rule\n" );
 	}
 	elsif( $wildcard == $priority )
 	{
-		log_rule( $rudebug, "current priority = $priority; new priority(wildcard matching) = $wildcard....merge this rule" );
+		log_rule( $rudebug, "current priority = $priority; new priority(wildcard matching) = $wildcard....merge this rule\n" );
 		$mrules="$rudebug,$contacts,$hosts,$services,$states,$days,$timeperiods,$numbers,$methods";
 		$calledmethods="$methods";
 		foreach( split( /[\s]*,[\s]*/, $methods ) )
@@ -335,7 +320,7 @@ foreach( split( /\n/, $$rules{$data_type} ) )
 	}
 	else
 	{
-		log_rule( $rudebug, "current priority = $priority; new priority(wildcard matching) = $wildcard....replace with this rule" );
+		log_rule( $rudebug, "current priority = $priority; new priority(wildcard matching) = $wildcard....replace with this rule\n" );
 		$mrules="$rudebug,$contacts,$hosts,$services,$states,$days,$timeperiods,$numbers,$methods";
 		$calledmethods="$methods";
 		$priority = $wildcard;
@@ -348,9 +333,9 @@ foreach( split( /\n/, $$rules{$data_type} ) )
 	}
 }
 
-if( ! exists $methods_hash{'-'} )
+if( ! exists $methods_hash{q{-}} )
 {
-	if( exists $methods_hash{'*'} )
+	if( exists $methods_hash{q{*}} )
 	{
 		%methods_hash = ();
 		foreach( keys %commands )
@@ -367,11 +352,11 @@ if( ! exists $methods_hash{'-'} )
 }
 else
 {
-	log_rule( $debug_rules, "#### silence");
+	log_rule( $debug_rules, '#### silence');
 }
 $dbh->disconnect();
-close($fh_log) if $debug;
-close($fh_notif) if $debug_rules;
+close $fh_log if $debug;
+close $fh_notif if $debug_rules;
 
 
 #######################
@@ -383,11 +368,9 @@ close($fh_notif) if $debug_rules;
 sub in_array
 {
 	my ( $item, @array ) = @_;
-
 	my $found = 0;
 
 	return 2 if $array[0] =~ /^\*$/;
-
 	foreach( @array )
 	{
 		if( /^$item$/ )
@@ -396,7 +379,6 @@ sub in_array
 			last;
 		}
 	}
-
 	return $found;
 }
 
@@ -414,15 +396,14 @@ sub in_timeperiod
 	foreach( @array )
 	{
 		( $start, $end ) = split /[\s]*-[\s]*/;
-		$start .= "00";
-		$end .= "00";
+		$start .= '00';
+		$end .= '00';
 		if( $time >= $start && $time < $end )
 		{
 			$found = 1;
 			last;
 		}
 	}
-
 	return $found;
 }
 
@@ -435,7 +416,6 @@ sub in_number
 	my $end;
 
 	return 2 if $array[0] =~ /^\*$/;
-
 	foreach( @array )
 	{
 		if ( /-/ )
@@ -447,7 +427,7 @@ sub in_number
 			$start = $end = $_;
 		}
 
-		$end = $number if $end == 0;
+		if ($end == 0) { $end = $number; }
 		if( $number >= $start && $number <= $end )
 		{
 			$found = 1;
@@ -458,14 +438,14 @@ sub in_number
 	return $found;
 }
 
-sub fill_method_array 
+sub fill_method_array
 {
 	my ($sub_cmd, $sub_etat) = @_;
-	if ( ! $array_methods ) 
+	if ( ! $array_methods )
 	{
-		$array_methods=$sub_cmd.$sub_etat;
-	} else { 
-		$array_methods=$array_methods.",".$sub_cmd.$sub_etat; 
+		$array_methods = $sub_cmd . $sub_etat;
+	} else {
+		$array_methods = $array_methods . q{,} . $sub_cmd . $sub_etat;
 	}
 	return $array_methods;
 }
@@ -490,31 +470,38 @@ sub notify
 	$commands{$method} =~ s/\$SERVICEGROUPNAMES\$/$group_service/g;
 	$commands{$method} =~ s/\$HOSTOUTPUT\$/$host_output/g;
 	$commands{$method} =~ s/\$HOSTSTATE\$/$host_state/g;
-	log ("command = $commands{$method}");
+	log_notifier ("command = $commands{$method}");
 	$cmd_dur_start = time;
 	system "$commands{$method}";
+	my $ret = $?;
 	$cmd_duration = time - $cmd_dur_start;
-	$state = $data_type eq "host" ? $host_state : $service_state;
-	if ($? == -1) {
+	$state = $data_type eq 'host' ? $host_state : $service_state;
+	if ($ret == -1) {
 		my $notifier_duration = time - $notifier_dur_start;
 		$query = "INSERT INTO notifier.sents_logs (nagios_date, contact, host, service, state, notification_number, method, priority, matched_rule, exit_code, exit_command, epoch, cmd_duration, notifier_duration) VALUES('".$nagios_longtimedate."', '".$contact_name."', '".$host_source."', '".$service_desc."', '".$state."', '".$nagios_notification_number."',  '".$calledmethods."', $priority, '$mrules', $?, '".$commands{$method}."', $epoch, $cmd_duration, $notifier_duration)";
 		$dbh->do($query);
         log_trace("Failed to execute: $! The final command was: $commands{$method}");
     }
-    elsif ($? & 127) {
+    elsif ($ret & 127) {
 		my $notifier_duration = time - $notifier_dur_start;
 		$query = "INSERT INTO notifier.sents_logs (nagios_date, contact, host, service, state, notification_number, method, priority, matched_rule, exit_code, exit_command, epoch, cmd_duration, notifier_duration) VALUES('".$nagios_longtimedate."', '".$contact_name."', '".$host_source."', '".$service_desc."', '".$state."', '".$nagios_notification_number."',  '".$calledmethods."', $priority, '$mrules', $?, '".$commands{$method}."', $epoch, $cmd_duration, $notifier_duration)";
 		$dbh->do($query);
-        log_trace("Child died with signal " + ($? & 127) + ($? & 128) ? ', with' : ', without' + "coredump. The final command was: $commands{$method}");
+        log_trace('Child died with signal \'' . ($ret & 127) . ($ret & 128) ? '\', with' : '\', without' . "coredump. The final command was: $commands{$method}");
     }
     else {
 		my $notifier_duration = time - $notifier_dur_start;
 		$query = "INSERT INTO notifier.sents_logs (nagios_date, contact, host, service, state, notification_number, method, priority, matched_rule, exit_code, exit_command, epoch, cmd_duration, notifier_duration) VALUES('".$nagios_longtimedate."', '".$contact_name."', '".$host_source."', '".$service_desc."', '".$state."', '".$nagios_notification_number."', '".$calledmethods."', $priority, '$mrules', $?, '".$commands{$method}."', $epoch, $cmd_duration, $notifier_duration)";
 		$dbh->do($query);
-        log_trace("Child exited with value " + $? >> 8 + ". The final command was: $commands{$method}");
+        log_trace('Child exited with value ' . ($ret >> 8) . ". The final command was: $commands{$method}");
     }
+	log_notifier('');
 }
 
+sub getDate
+{
+	my ( $sec, $min, $hour, $mday, $mon, $year, $wday, $yday, $isdst ) = localtime(time);
+    sprintf( "%04i-%02i-%02i %02i:%02i", ( $year > 50 ) ? $year + 1900 : $year + 2000, $mon + 1, $mday, $hour, $min );
+}
 sub log_notifier
 {
 	# global notifier debug (0 or 1)
@@ -523,25 +510,26 @@ sub log_notifier
 	# rules debug (0: no, 1: full debug, 2: sent notification traces, 3: 1+2)
 	# $debug_rules
 	if (!$debug) { return; }
-	print $fh_log "$1\n";
+	return print {$fh_log} &getDate . " " . $_[0] . "\n";
 }
 
 sub log_rule
 {
-
 	my ($debug, $message) = @_;
 	if (!$debug) { return; }
 	if ($debug_rules == 1 || $debug_rules == 3 )
 	{
-		log_notifier($message);
+		return log_notifier($message);
 	}
+	return 0;
 }
 
 sub log_trace
 {
 	if ($debug_rules == 2 || $debug_rules == 3 )
 	{
-		log_notifier($1);
-		print $fh_notif "$1\n";
+		log_notifier($_[0]);
+		return print {$fh_notif} &getDate . " " . $_[0] . "\n";
 	}
+	return 0;
 }
