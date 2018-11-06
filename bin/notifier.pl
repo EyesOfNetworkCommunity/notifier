@@ -209,6 +209,8 @@ foreach( split( /\n/, $$rules{$data_type} ) )
 	( $rudebug, $contacts, $hosts, $services, $states, $days, $timeperiods, $numbers, $methods, $tracking ) = split /[\s]*:[\s]*/;
 	print LOGRULES "********************************************\n" if ($rudebug == 1);
 	print LOGRULES "date = $nagios_longtimedate\n" if ($rudebug == 1);
+        print LOGRULES "Reading $rules_file data_type: $$rules{$data_type}\n" if ($rudebug == 1);
+
 	
 	if( $data_type eq "host" && $services ne "-" || $data_type eq "service" && $services eq "-" )
 	{
